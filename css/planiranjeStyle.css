@@ -1,0 +1,29 @@
+body {
+    background-color: #b7e4ea;
+    text-align: center;
+}
+
+#unosPodataka {
+    background-color: #99c;
+    width: 400px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    text-align: center;
+    display: inline-block;
+}
+
+form {
+    margin: 15px;
+}
+
+label {
+    text-align: left;
+    width: 40%;
+    float: left;
+}
+
+input,
+select {
+    width: 40%;
+    box-sizing: border-box;
+}
