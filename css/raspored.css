@@ -8,36 +8,48 @@
 }
 .grid-item{
     background-color: azure;
+
+}
+.red1{
+    border-top-style: solid;
+}
+.crta{
+    border-right-style: solid;
+    border-bottom-style: solid;
+}
+.crtice{
+    border-right-style: dashed;
+    border-bottom-style: solid;
 }
 
 #grid-item1 {
     grid-row: 1;
     grid-column: 5 / 11;
     border-right-style: solid;
-    border-left-style: solid;
+    border-bottom-style: solid;
     text-align: center;
 }
 
 #grid-item2 {
     grid-row: 1;
     grid-column: 11 / 14;
-    border-left-style: solid;
-    border-right-style: dotted;
+    border-right-style: dashed;
+    border-bottom-style: solid;
     text-align: center
 }
 
 #grid-item3 {
     grid-row: 1;
-    grid-column: 15 / 20;
+    grid-column: 15 / 21;
     border-right-style: solid;
-    border-left-style: solid;
+    border-bottom-style: solid;
     text-align: center;
 }
 
 #grid-item4{
     grid-row: 2;
     grid-column: 12 / 15;
-    border-left-style: dotted;
+    border-bottom-style: solid;
     border-right-style: solid;
     text-align: center;
 }
@@ -46,7 +58,7 @@
     grid-row: 2;
     grid-column: 15 / 19;
     border-right-style: solid;
-    border-left-style: solid;
+    border-bottom-style: solid;
     text-align: center;
 }
 
@@ -54,21 +66,22 @@
     grid-row: 2;
     grid-column: 19 / 25;
     border-right-style: solid;
-    border-left-style: solid;
+    border-bottom-style: solid;
     text-align: center;
 }
 #grid-item7{
     grid-row: 3;
     grid-column: 11 / 17;
     border-right-style: solid;
-    border-left-style: solid;
+    border-bottom-style: solid;
     text-align: center;
 }
 #grid-item-prazno{
     grid-row: 3;
     grid-column: 17 /23;
     border-right-style: solid;
-    border-left-style: solid;
+    border-bottom-style: solid;
+
 
 }
 
