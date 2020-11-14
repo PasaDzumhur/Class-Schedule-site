@@ -3,6 +3,11 @@
     grid-template-columns: repeat(30, 1fr);
     grid-template-rows: repeat(5, 1fr);
     grid-auto-flow: row;
+    background-color: lightgray;
+    margin: 10%;
+}
+.grid-item{
+    background-color: azure;
 }
 
 #grid-item1 {
@@ -58,6 +63,13 @@
     border-right-style: solid;
     border-left-style: solid;
     text-align: center;
+}
+#grid-item-prazno{
+    grid-row: 3;
+    grid-column: 17 /23;
+    border-right-style: solid;
+    border-left-style: solid;
+
 }
 
 
