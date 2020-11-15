@@ -5,16 +5,23 @@
 
 fieldset{
     margin-top: 10%;
-    margin-left: 10%;
     height: 300px;
     width: 350px;
+    border-radius: 40px;
+    text-align: center;
+
 }
 #prethodna{
     float: left;
+    margin-left: 10%;
 }
 #trenutna{
+    height: 400px;
     float: left;
 }
 #sljedeca{
     float: left;
+}
+.vecaSlova{
+    font-size: large;
 }
