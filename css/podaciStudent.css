@@ -1,6 +1,9 @@
-body {
+.okvir {
+    display: inline-block;
+    width: 400px;
+    margin-top: 15px;
+    margin-bottom: 15px;
     text-align: center;
-    display: block;
 }
 
 table,
@@ -16,5 +19,5 @@ table {
     margin-right: auto;
 }
 tr:hover{
-    border-style: solid;
+    border: solid 2px;
 }
