@@ -1,9 +1,6 @@
-.okvir {
-    display: inline-block;
-    width: 400px;
-    margin-top: 15px;
-    margin-bottom: 15px;
+body {
     text-align: center;
+    display: block;
 }
 
 table,
