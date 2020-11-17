@@ -104,8 +104,6 @@
     grid-column: 17 /23;
     border-right-style: solid;
     border-bottom-style: solid;
-
-
 }
 
 
@@ -146,4 +144,120 @@
 }
 .red0,.kolona0{
     background-color: white;
+}
+@media only screen and (max-width: 600px){
+    .grid-container{
+        display: grid;
+        grid-template-columns: auto;
+        grid-template-rows: repeat(15,1fr);
+        margin-top: 5%;
+        border-style: solid;
+    }
+    #ponedjeljak {
+        grid-row: 1;
+        grid-column: 1;
+        border-bottom-style: solid;
+        border-right-style: none;
+        text-align: center;
+    }
+    #grid-item1{
+        grid-column: 1;
+        grid-row: 2 / 4;
+        border-bottom-style: solid;
+        border-right-style: none;
+        text-align: center;
+    }
+    #grid-item2 {
+        grid-column: 1;
+        grid-row: 4 / 6;
+        border-bottom-style: solid;
+        border-right-style: none;
+        text-align: center
+    }
+
+    #grid-item3 {
+        grid-column: 1;
+        grid-row: 15 / 21;
+        border-right-style: none;
+        border-bottom-style: solid;
+        text-align: center;
+    }
+
+    #utorak {
+        grid-column: 1;
+        grid-row: 6;
+        border-bottom-style: solid;
+        border-right-style: none;
+        text-align: center;
+    }
+    #grid-item4{
+        grid-column: 1;
+        grid-row: 7 / 9;
+        border-bottom-style: solid;
+        border-right-style: none;
+        text-align: center;
+    }
+
+    #grid-item5 {
+        grid-column: 1;
+        grid-row: 9 / 11;
+        border-bottom-style: solid;
+        border-right-style: none;
+        text-align: center;
+    }
+
+    #grid-item6{
+        grid-column: 1;
+        grid-row: 11 / 13;
+        border-bottom-style: solid;
+        border-right-style: none;
+        text-align: center;
+    }
+    #srijeda {
+        grid-column: 1;
+        grid-row: 13;
+        border-bottom-style: solid;
+        border-right-style: none;
+        text-align: center;
+    }
+    #grid-item7{
+        grid-column: 1;
+        grid-row: 14 / 16;
+        border-bottom-style: solid;
+        border-right-style: none;
+        text-align: center;
+    }
+    #grid-item-prazno{
+        grid-column: 1;
+        grid-row: 16 / 18;
+        border-bottom-style: solid;
+        border-right-style: none;
+    }
+
+    #cetvrtak{
+        grid-column: 1;
+        grid-row: 18;
+        border-bottom-style: solid;
+        border-right-style: none;
+        text-align: center;
+    }
+    #petak{
+        grid-column: 1;
+        grid-row: 19;
+        border-right-style: none;
+        text-align: center;
+    }
+    .red0{
+        display: none;
+    }
+    .crta{
+        display: none;
+    }
+    .crtice{
+        display: none;
+    }
+    .red1{
+        border-style: none;
+    }
+
 }
