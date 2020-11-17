@@ -29,7 +29,15 @@ select {
 }
 
 @media only screen and (max-width: 600px){
-    label{
-        float: top;
+    select,input,label{
+        display: block;
+        text-align: center;
+        margin-left: 30%;
     }
+    label{
+        float: none;
+    }
+
+
+
 }
