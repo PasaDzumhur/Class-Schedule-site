@@ -37,6 +37,14 @@ select {
     label{
         float: none;
     }
+    label + input{
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+    label + select{
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
 
 
 
