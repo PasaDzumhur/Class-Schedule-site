@@ -12,6 +12,7 @@
 }
 .red1{
     border-top-style: solid;
+
 }
 .crta{
     border-right-style: solid;
@@ -142,4 +143,7 @@
 .imePredmeta{
     font-size: large;
 
+}
+.red0,.kolona0{
+    background-color: white;
 }
