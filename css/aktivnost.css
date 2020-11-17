@@ -2,8 +2,10 @@ body{
     background-color: #ADD8E6;
 }
 .main{
-    margin: 10px;
-    display: inline-block;
+    height: 100%;
+    margin: auto;
+    /*display: inline-flex;*/
+
 }
 
 fieldset{
@@ -12,15 +14,20 @@ fieldset{
     width: 350px;
     border-radius: 40px;
     text-align: center;
+    box-sizing: border-box;
 
 }
+
 #prethodna{
     float: left;
     margin-left: 10%;
+
 }
 #trenutna{
-    height: 400px;
     float: left;
+    margin-top: 4%;
+    height: 400px;
+
 }
 #sljedeca{
     float: left;

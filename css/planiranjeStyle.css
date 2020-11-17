@@ -27,3 +27,9 @@ select {
     width: 40%;
     box-sizing: border-box;
 }
+
+@media only screen and (max-width: 600px){
+    label{
+        float: top;
+    }
+}
