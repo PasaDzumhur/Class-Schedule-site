@@ -1,6 +1,6 @@
 .grid-container {
     display: grid;
-    grid-template-columns:2fr repeat(29, 1fr);
+    grid-template-columns:2fr repeat(27, 1fr);
     grid-template-rows: 30px repeat(5, 1fr);
     grid-auto-flow: row;
     background-color: lightgray;
@@ -42,7 +42,7 @@
     grid-column: 21 / 24;
 }
 #devetnes{
-    grid-column: 24 / 31;
+    grid-column: 24 / 29;
 }
 
 #grid-item1 {
