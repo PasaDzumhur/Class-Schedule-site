@@ -22,28 +22,31 @@
     border-right-style: dashed;
     border-bottom-style: solid;
 }
-#osam{
+/*
+#sati8{
     grid-column: 2 / 5;
     text-align: center;
 }
-#deset{
+#sati10{
     grid-column: 5 / 9;
     text-align: center;
 }
-#dvanes{
+#sati12{
     grid-column: 9 / 13;
     text-align: center;
 }
-#petnes{
+#sati15{
     grid-column: 13 / 21;
     text-align: center;
 }
-#sedamnes{
+#sati17{
     grid-column: 21 / 24;
 }
-#devetnes{
+#sati19{
     grid-column: 24 / 29;
 }
+*/
+
 
 #grid-item1 {
     grid-row: 2;

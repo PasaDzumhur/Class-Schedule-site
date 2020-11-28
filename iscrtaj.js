@@ -2,32 +2,130 @@ function iscrtajRaspored(div ,dani,satPocetak,satKraj){
 
     let kolone=(satKraj-satPocetak)*2+1;
     let redovi=dani.length;
-    for(let i = satPocetak; i<satKraj; i++){
-        if(i==0){
-
-        }else if(i==2){
-
-        }else if(i==2){
-
-        }else if(i==2){
-
-        }else if(i==2){
-
-        }else if(i==2){
-
-        }else if(i==2){
-
-        }else if(i==2){
-
-        }else if(i==2){
-
-        }else if(i==2){
-
-        }else if(i==2){
-
-        }else if(i==2){
-
+    let rupa1 = document.createElement("div");
+    rupa1.setAttribute("class","red0");
+    okvir.appendChild(rupa1);
+    rupa1.style.gridColumn="1/3";
+    for(let i = satPocetak; i<=satKraj; i = i + 0.5){
+        if(i!=satKraj &&(i==0 || i==2 || i==4 || i==6 || i ==8 || i==10 || i==12 || i==15 || i==17 || i==19 || i==21 || i==23 )){
+            let vrijeme = document.createElement("div");
+            let kolikoJe = document.createTextNode(i+":00");
+            vrijeme.appendChild(kolikoJe);
+            vrijeme.setAttribute("class","red0");
+            okvir.appendChild(vrijeme);
+        }else {
+            let rupa = document.createElement("div");
+            okvir.appendChild(rupa);
+            rupa.setAttribute("class","red0");
         }
+        /*
+        if(i==0){
+            let vrijeme = document.createElement("div");
+            let kolikoJe = document.createTextNode("0:00");
+            vrijeme.appendChild(kolikoJe);
+            vrijeme.setAttribute("class","red0");
+            vrijeme.style.gridColumn=(i-satPocetak);
+            vrijeme.style.gridRow="0";
+            okvir.appendChild(vrijeme);
+        }else if(i==2){
+            let vrijeme = document.createElement("div");
+            let kolikoJe = document.createTextNode("2:00");
+            vrijeme.appendChild(kolikoJe);
+            vrijeme.setAttribute("class","red0");
+            vrijeme.style.gridColumn=(i-satPocetak);
+            vrijeme.style.gridRow="0";
+
+            okvir.appendChild(vrijeme);
+
+        }else if(i==4){
+            let vrijeme = document.createElement("div");
+            let kolikoJe = document.createTextNode("4:00");
+            vrijeme.appendChild(kolikoJe);
+            vrijeme.setAttribute("class","red0");
+            vrijeme.style.gridColumn=(i-satPocetak);
+            vrijeme.style.gridRow="0";
+
+            okvir.appendChild(vrijeme);
+        }else if(i==6){
+            let vrijeme = document.createElement("div");
+            let kolikoJe = document.createTextNode("6:00");
+            vrijeme.appendChild(kolikoJe);
+            vrijeme.setAttribute("class","red0");
+            vrijeme.style.gridColumn=(i-satPocetak);
+            vrijeme.style.gridRow="0";
+            okvir.appendChild(vrijeme);
+        }else if(i==8){
+            let vrijeme = document.createElement("div");
+            let kolikoJe = document.createTextNode("8:00");
+            vrijeme.appendChild(kolikoJe);
+            vrijeme.setAttribute("class","red0");
+            vrijeme.style.gridColumn=(i-satPocetak);
+            vrijeme.style.gridRow="0";
+            okvir.appendChild(vrijeme);
+
+        }else if(i==10){
+            let vrijeme = document.createElement("div");
+            let kolikoJe = document.createTextNode("10:00");
+            vrijeme.appendChild(kolikoJe);
+            vrijeme.setAttribute("class","red0");
+            vrijeme.style.gridColumn=(i-satPocetak);
+            vrijeme.style.gridRow="0";
+            okvir.appendChild(vrijeme);
+
+        }else if(i==12){
+            let vrijeme = document.createElement("div");
+            let kolikoJe = document.createTextNode("12:00");
+            vrijeme.appendChild(kolikoJe);
+            vrijeme.setAttribute("class","red0");
+            vrijeme.style.gridColumn=(i-satPocetak);
+            vrijeme.style.gridRow="0";
+            okvir.appendChild(vrijeme);
+
+        }else if(i==15){
+            let vrijeme = document.createElement("div");
+            let kolikoJe = document.createTextNode("15:00");
+            vrijeme.appendChild(kolikoJe);
+            vrijeme.setAttribute("class","red0");
+            vrijeme.style.gridColumn=(i-satPocetak);
+            vrijeme.style.gridRow="0";
+            okvir.appendChild(vrijeme);
+
+        }else if(i==17){
+            let vrijeme = document.createElement("div");
+            let kolikoJe = document.createTextNode("17:00");
+            vrijeme.appendChild(kolikoJe);
+            vrijeme.setAttribute("class","red0");
+            vrijeme.style.gridColumn=(i-satPocetak)+"/"+(i-satPocetak);
+            vrijeme.style.gridRow="0";
+            okvir.appendChild(vrijeme);
+
+        }else if(i==19){
+            let vrijeme = document.createElement("div");
+            let kolikoJe = document.createTextNode("19:00");
+            vrijeme.appendChild(kolikoJe);
+            vrijeme.setAttribute("class","red0");
+            vrijeme.style.gridColumn=(i-satPocetak)+"/"+(i-satPocetak);
+            vrijeme.style.gridRow="0";
+            okvir.appendChild(vrijeme);
+
+        }else if(i==21){
+            let vrijeme = document.createElement("div");
+            let kolikoJe = document.createTextNode("21:00");
+            vrijeme.appendChild(kolikoJe);
+            vrijeme.setAttribute("class","red0");
+            vrijeme.style.gridColumn=(i-satPocetak)+"/"+(i-satPocetak);
+            vrijeme.style.gridRow="0";
+            okvir.appendChild(vrijeme);
+
+        }else {
+            let rupa = document.createElement("div");
+            rupa.setAttribute("class","red0");
+            rupa.style.gridColumn=(i-satPocetak);
+            rupa.style.gridRow="0";
+            okvir.appendChild(rupa);
+
+
+        }*/
     }
     okvir.style.gridTemplateColumns="100px repeat("+kolone+",1fr)";
     okvir.style.gridTemplateRows="30px repeat("+redovi+",1fr)";
