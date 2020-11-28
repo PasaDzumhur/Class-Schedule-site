@@ -6,17 +6,21 @@ function iscrtajRaspored(div ,dani,satPocetak,satKraj){
     rupa1.setAttribute("class","red0");
     okvir.appendChild(rupa1);
     rupa1.style.gridColumn="1/3";
-    for(let i = satPocetak; i<=satKraj; i = i + 0.5){
+    rupa1.style.gridRow="1";
+    for(let i = satPocetak; i<satKraj; i = i + 0.5){
         if(i!=satKraj &&(i==0 || i==2 || i==4 || i==6 || i ==8 || i==10 || i==12 || i==15 || i==17 || i==19 || i==21 || i==23 )){
             let vrijeme = document.createElement("div");
             let kolikoJe = document.createTextNode(i+":00");
             vrijeme.appendChild(kolikoJe);
             vrijeme.setAttribute("class","red0");
             okvir.appendChild(vrijeme);
+            vrijeme.style.alignContent="left";
+            vrijeme.style.gridRow="1";
         }else {
             let rupa = document.createElement("div");
             okvir.appendChild(rupa);
             rupa.setAttribute("class","red0");
+            rupa.style.gridRow="1";
         }
         /*
         if(i==0){
@@ -150,6 +154,11 @@ function iscrtajRaspored(div ,dani,satPocetak,satKraj){
         div.setAttribute("class","kolona0")
         div.appendChild(dan);
         okvir.appendChild((div));
+        div.style.gridRow=(i+2);
+        div.style.gridColumn="1/3";
+        div.style.borderRightStyle="solid";
+        div.style.fontSize="x-large";
+        div.style.alignContent="center";
     }
     /*
     let item1=document.createElement("div");
