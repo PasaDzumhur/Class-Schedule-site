@@ -62,17 +62,21 @@ function iscrtajRaspored(div ,dani,satPocetak,satKraj){
 function dodajAktivnost(raspored, naziv, tip, vrijemePocetak, vrijemeKraj,dan){
     let dani = raspored.querySelectorAll(".kolona0");
     let glupaProvjera = false;
-
+    //for(let i = 0 ; i<dani.length; i++) console.log(dani[i].getAttribute("id"));
     for(let i = 0 ; i<dani.length; i++){
-        if(dani[i].getAttribute("id")==dan) glupaProvjera=true;
-        kolona = i;
+        if(dani[i].getAttribute("id")==dan){
+            glupaProvjera=true;
+            kolona=i+1;
+        }
+
     }
     //if(!glupaProvjera) return ;
     let vremena = raspored.querySelectorAll(".red0");
-    let idPocetka = vremena[2].getAttribute("id").slice(6);
+    //for(let i = 0 ; i<vremena.length; i++) console.log(vremena[i].getAttribute("id"));
+    let idPocetka = vremena[1].getAttribute("id").slice(6);
     let pocetakRasporeda = parseFloat(idPocetka);
     let idKraja = vremena[vremena.length-1].getAttribute("id").slice(6);
-    let krajRasporeda = parseFloat(idKraja);
+    let krajRasporeda = parseFloat(idKraja)+0.5;
     if(vrijemePocetak<=pocetakRasporeda || vrijemeKraj<=krajRasporeda){
         //return ;
     }
@@ -89,16 +93,35 @@ function dodajAktivnost(raspored, naziv, tip, vrijemePocetak, vrijemeKraj,dan){
     ime.setAttribute("class","imePredmeta");
     vrsta.setAttribute("class","tipNastave");
     raspored.appendChild(grid_item);
-    let pocetak = (vrijemePocetak-pocetakRasporeda)*2+2;
-    let kraj = (vrijemeKraj-vrijemePocetak)*2+2;
-    for(let i = pocetak; pocetak<kraj; pocetak = pocetak + 0.5){
+    let pocetak = (vrijemePocetak-pocetakRasporeda)*2;
+    let kraj = (vrijemeKraj-vrijemePocetak)*2;
+    console.log("pocetak rasporeda; " + pocetakRasporeda);
+    console.log("kraj rasporeda: " + krajRasporeda);
+    console.log("pocetakPredavanja: " + vrijemePocetak);
+    console.log("krajPredavanja: " + vrijemeKraj);
+    console.log("pocetak: " + pocetak + " kraj: " + kraj);
+    console.log("kolona: "+ kolona);
+    for(let i = pocetak+1; i<pocetak+kraj+1; i++){
         //raspored.removeAttribute("id","rupa"+kolona+"-"+i);
-        raspored.removeChild("rupa"+kolona+"-"+i)
+        //console.log(i);
+        //--------------------
+        //raspored.removeChild("rupa"+kolona+"-"+i);
+        console.log("rupa" + kolona + "-" + i);
+        let izbrisani = document.getElementById("rupa" + kolona + "-" + i);
+        izbrisani.remove();
 
     }
     raspored.appendChild(grid_item);
-    grid_item.style.gridRow="1";
-    grid_item.style.gridColumn=""+pocetak+"/"+kraj;
+    grid_item.style.gridRow=(kolona+1);
+    console.log((pocetak+3));
+    console.log((kraj+3));
+    grid_item.style.gridColumnStart=(pocetak+3);
+    grid_item.style.gridColumnEnd=(pocetak+kraj+3);
+    grid_item.style.borderTopStyle="solid";
+    grid_item.style.borderBottomStyle="solid";
+    grid_item.style.textAlign="center";
+    if(kraj%2==0) grid_item.style.borderRightStyle="solid";
+    else grid_item.style.borderRightStyle="dotted";
 
 
 
@@ -107,3 +130,8 @@ function dodajAktivnost(raspored, naziv, tip, vrijemePocetak, vrijemeKraj,dan){
 let okvir = document.getElementById("okvir");
 iscrtajRaspored(okvir,["Ponedjeljak","Utorak","Srijeda","Četvrtak","Petak"],9,21);
 dodajAktivnost(okvir,"WT","predavanje",9,12,"Ponedjeljak");
+dodajAktivnost(okvir,"WT","vježbe",12,13.5,"Ponedjeljak");
+dodajAktivnost(okvir,"RMA","predavanje",14,17,"Ponedjeljak");
+dodajAktivnost(okvir,"RMA","vježbe",12.5,14,"Utorak");
+dodajAktivnost(okvir,"DM","tutorijal",14,16,"Utorak");
+dodajAktivnost(okvir,"DM","predavanje",16,19,"Utorak");
