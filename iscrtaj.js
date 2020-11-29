@@ -120,7 +120,7 @@ function dodajAktivnost(raspored, naziv, tip, vrijemePocetak, vrijemeKraj,dan){
     grid_item.style.borderTopStyle="solid";
     grid_item.style.borderBottomStyle="solid";
     grid_item.style.textAlign="center";
-    if(kraj%2==0) grid_item.style.borderRightStyle="solid";
+    if((pocetak+kraj)%2==0) grid_item.style.borderRightStyle="solid";
     else grid_item.style.borderRightStyle="dotted";
 
 
