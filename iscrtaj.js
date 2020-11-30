@@ -70,15 +70,28 @@ function dodajAktivnost(raspored, naziv, tip, vrijemePocetak, vrijemeKraj,dan){
         }
 
     }
-    //if(!glupaProvjera) return ;
+    if(!glupaProvjera) {
+        alert("Ne valja ti taj raspored");
+        return ;
+    }
     let vremena = raspored.querySelectorAll(".red0");
     //for(let i = 0 ; i<vremena.length; i++) console.log(vremena[i].getAttribute("id"));
     let idPocetka = vremena[1].getAttribute("id").slice(6);
     let pocetakRasporeda = parseFloat(idPocetka);
     let idKraja = vremena[vremena.length-1].getAttribute("id").slice(6);
     let krajRasporeda = parseFloat(idKraja)+0.5;
-    if(vrijemePocetak<=pocetakRasporeda || vrijemeKraj<=krajRasporeda){
-        //return ;
+    if(vrijemePocetak<pocetakRasporeda || vrijemeKraj>krajRasporeda){
+
+        alert("Ne valja ti taj raspored ");
+        return ;
+    }
+    let pocetak = (vrijemePocetak-pocetakRasporeda)*2;
+    let kraj = (vrijemeKraj-vrijemePocetak)*2;
+    for(let i = pocetak+1; i<pocetak+kraj+1; i++){
+        if(document.getElementById("rupa"+kolona+"-"+i)==null){
+            alert("Poklapanje u rasporedu");
+            return ;
+        }
     }
     let grid_item = document.createElement("div");
     grid_item.setAttribute("class","grid-item");
@@ -93,8 +106,7 @@ function dodajAktivnost(raspored, naziv, tip, vrijemePocetak, vrijemeKraj,dan){
     ime.setAttribute("class","imePredmeta");
     vrsta.setAttribute("class","tipNastave");
     raspored.appendChild(grid_item);
-    let pocetak = (vrijemePocetak-pocetakRasporeda)*2;
-    let kraj = (vrijemeKraj-vrijemePocetak)*2;
+
     console.log("pocetak rasporeda; " + pocetakRasporeda);
     console.log("kraj rasporeda: " + krajRasporeda);
     console.log("pocetakPredavanja: " + vrijemePocetak);
@@ -102,10 +114,7 @@ function dodajAktivnost(raspored, naziv, tip, vrijemePocetak, vrijemeKraj,dan){
     console.log("pocetak: " + pocetak + " kraj: " + kraj);
     console.log("kolona: "+ kolona);
     for(let i = pocetak+1; i<pocetak+kraj+1; i++){
-        //raspored.removeAttribute("id","rupa"+kolona+"-"+i);
-        //console.log(i);
-        //--------------------
-        //raspored.removeChild("rupa"+kolona+"-"+i);
+
         console.log("rupa" + kolona + "-" + i);
         let izbrisani = document.getElementById("rupa" + kolona + "-" + i);
         izbrisani.remove();
@@ -135,3 +144,4 @@ dodajAktivnost(okvir,"RMA","predavanje",14,17,"Ponedjeljak");
 dodajAktivnost(okvir,"RMA","vježbe",12.5,14,"Utorak");
 dodajAktivnost(okvir,"DM","tutorijal",14,16,"Utorak");
 dodajAktivnost(okvir,"DM","predavanje",16,19,"Utorak");
+dodajAktivnost(okvir,"OI","predavanje",12,15,"Ponedjeljak");
