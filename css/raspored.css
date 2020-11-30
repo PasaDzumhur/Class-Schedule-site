@@ -156,6 +156,16 @@
 .red0,.kolona0{
     background-color: white;
 }
+.kolona0{
+    text-align: center;
+    vertical-align: center;
+}
+.red0{
+    border-bottom-style: solid;
+}
+.red1{
+    border-top-style: none;
+}
 #prazno{
     background-color: white;
 }

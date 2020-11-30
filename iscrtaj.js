@@ -1,4 +1,8 @@
 function iscrtajRaspored(div ,dani,satPocetak,satKraj){
+    if(satPocetak >= satKraj){
+        alert("Ne moze to tako...");
+        return ;
+    }
 
     let kolone=(satKraj-satPocetak)*2+1;
     let redovi=dani.length;
@@ -7,6 +11,7 @@ function iscrtajRaspored(div ,dani,satPocetak,satKraj){
     div.appendChild(rupa1);
     rupa1.style.gridColumn="1/3";
     rupa1.style.gridRow="1";
+    rupa1.style.borderBottomStyle="none";
     for(let i = satPocetak; i<satKraj; i = i + 0.5){
         if(i!=satKraj &&(i==0 || i==2 || i==4 || i==6 || i ==8 || i==10 || i==12 || i==15 || i==17 || i==19 || i==21 || i==23 )){
             let vrijeme = document.createElement("div");
@@ -18,6 +23,7 @@ function iscrtajRaspored(div ,dani,satPocetak,satKraj){
             vrijeme.style.alignContent="left";
             vrijeme.style.gridRow="1";
         }else {
+
             let rupa = document.createElement("div");
             div.appendChild(rupa);
             rupa.setAttribute("class","red0");
@@ -126,7 +132,7 @@ function dodajAktivnost(raspored, naziv, tip, vrijemePocetak, vrijemeKraj,dan){
     console.log((kraj+3));
     grid_item.style.gridColumnStart=(pocetak+3);
     grid_item.style.gridColumnEnd=(pocetak+kraj+3);
-    grid_item.style.borderTopStyle="solid";
+    //grid_item.style.borderTopStyle="solid";
     grid_item.style.borderBottomStyle="solid";
     grid_item.style.textAlign="center";
     if((pocetak+kraj)%2==0) grid_item.style.borderRightStyle="solid";
@@ -137,11 +143,11 @@ function dodajAktivnost(raspored, naziv, tip, vrijemePocetak, vrijemeKraj,dan){
 }
 
 let okvir = document.getElementById("okvir");
-iscrtajRaspored(okvir,["Ponedjeljak","Utorak","Srijeda","Četvrtak","Petak"],9,21);
+iscrtajRaspored(okvir,["Ponedjeljak","Utorak","Srijeda","Četvrtak"],9,21);
 dodajAktivnost(okvir,"WT","predavanje",9,12,"Ponedjeljak");
 dodajAktivnost(okvir,"WT","vježbe",12,13.5,"Ponedjeljak");
 dodajAktivnost(okvir,"RMA","predavanje",14,17,"Ponedjeljak");
 dodajAktivnost(okvir,"RMA","vježbe",12.5,14,"Utorak");
 dodajAktivnost(okvir,"DM","tutorijal",14,16,"Utorak");
 dodajAktivnost(okvir,"DM","predavanje",16,19,"Utorak");
-dodajAktivnost(okvir,"OI","predavanje",12,15,"Ponedjeljak");
+//dodajAktivnost(okvir,"OI","predavanje",12,15,"Ponedjeljak");
