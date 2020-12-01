@@ -45,7 +45,7 @@ function iscrtajRaspored(div ,dani,satPocetak,satKraj){
             divPom.setAttribute("id","rupa"+(i+1)+"-"+j);
             //divPom.style.gridRow=(i+2);
             //divPom.style.gridColumn=(j+2);
-            okvir.appendChild(divPom);
+            div.appendChild(divPom);
         }
     }
     for(let i = 0; i<dani.length; i++){
@@ -94,7 +94,7 @@ function dodajAktivnost(raspored, naziv, tip, vrijemePocetak, vrijemeKraj,dan){
     let pocetak = (vrijemePocetak-pocetakRasporeda)*2;
     let kraj = (vrijemeKraj-vrijemePocetak)*2;
     for(let i = pocetak+1; i<pocetak+kraj+1; i++){
-        if(document.getElementById("rupa"+kolona+"-"+i)==null){
+        if(raspored.querySelectorAll("#rupa"+kolona+"-"+i).length==0){
             alert("Poklapanje u rasporedu");
             return ;
         }
@@ -122,8 +122,9 @@ function dodajAktivnost(raspored, naziv, tip, vrijemePocetak, vrijemeKraj,dan){
     for(let i = pocetak+1; i<pocetak+kraj+1; i++){
 
         console.log("rupa" + kolona + "-" + i);
-        let izbrisani = document.getElementById("rupa" + kolona + "-" + i);
-        izbrisani.remove();
+        let izbrisani=raspored.querySelectorAll("#rupa"+kolona+"-"+i);
+
+        izbrisani[0].remove();
 
     }
     raspored.appendChild(grid_item);
@@ -141,7 +142,7 @@ function dodajAktivnost(raspored, naziv, tip, vrijemePocetak, vrijemeKraj,dan){
 
 
 }
-
+/*
 let okvir = document.getElementById("okvir");
 iscrtajRaspored(okvir,["Ponedjeljak","Utorak","Srijeda","Četvrtak"],9,21);
 dodajAktivnost(okvir,"WT","predavanje",9,12,"Ponedjeljak");
@@ -149,5 +150,5 @@ dodajAktivnost(okvir,"WT","vježbe",12,13.5,"Ponedjeljak");
 dodajAktivnost(okvir,"RMA","predavanje",14,17,"Ponedjeljak");
 dodajAktivnost(okvir,"RMA","vježbe",12.5,14,"Utorak");
 dodajAktivnost(okvir,"DM","tutorijal",14,16,"Utorak");
-dodajAktivnost(okvir,"DM","predavanje",16,19,"Utorak");
+dodajAktivnost(okvir,"DM","predavanje",16,19,"Utorak");*/
 //dodajAktivnost(okvir,"OI","predavanje",12,15,"Ponedjeljak");
