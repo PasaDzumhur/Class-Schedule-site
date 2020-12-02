@@ -82,7 +82,7 @@ var modul = (function (){
         }
         if(!glupaProvjera) {
             alert("Ne valja ti taj raspored");
-            return ;
+            return "Greška";
         }
         let vremena = raspored.querySelectorAll(".red0");
         //for(let i = 0 ; i<vremena.length; i++) console.log(vremena[i].getAttribute("id"));
@@ -93,14 +93,14 @@ var modul = (function (){
         if(vrijemePocetak<pocetakRasporeda || vrijemeKraj>krajRasporeda){
 
             alert("Ne valja ti taj raspored ");
-            return ;
+            return "Greška";
         }
         let pocetak = (vrijemePocetak-pocetakRasporeda)*2;
         let kraj = (vrijemeKraj-vrijemePocetak)*2;
         for(let i = pocetak+1; i<pocetak+kraj+1; i++){
             if(raspored.querySelectorAll("#rupa"+kolona+"-"+i).length==0){
                 alert("Poklapanje u rasporedu");
-                return ;
+                return "Greška";
             }
         }
         let grid_item = document.createElement("div");
