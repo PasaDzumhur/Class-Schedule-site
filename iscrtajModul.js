@@ -1,7 +1,9 @@
 var modul = (function (){
     var iscrtajRaspored=function (div ,dani,satPocetak,satKraj) {
-        if (satPocetak >= satKraj) {
-            alert("Ne moze to tako...");
+        if (satPocetak >= satKraj || satPocetak<0 || satPocetak>24 || satKraj<0 || satPocetak>24 ||
+        !Number.isInteger(satPocetak) || !Number.isInteger(satKraj)) {
+            //alert("Ne moze to tako...");
+            div.innerHTML="Greška";
             return;
         }
 

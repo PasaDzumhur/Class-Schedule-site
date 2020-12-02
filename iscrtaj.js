@@ -1,7 +1,9 @@
 function iscrtajRaspored(div ,dani,satPocetak,satKraj){
-    if(satPocetak >= satKraj){
-        alert("Ne moze to tako...");
-        return ;
+    if (satPocetak >= satKraj || satPocetak<0 || satPocetak>24 || satKraj<0 || satPocetak>24 ||
+        !Number.isInteger(satPocetak) || !Number.isInteger(satKraj)) {
+        //alert("Ne moze to tako...");
+        div.innerHTML="Greška";
+        return;
     }
 
     let kolone=(satKraj-satPocetak)*2+1;
@@ -61,11 +63,13 @@ function iscrtajRaspored(div ,dani,satPocetak,satKraj){
         divPom.style.fontSize="x-large";
         divPom.style.alignContent="center";
     }
+    div.setAttribute("class","kreiran");
 
 
 }
 
 function dodajAktivnost(raspored, naziv, tip, vrijemePocetak, vrijemeKraj,dan){
+    if(raspored==null || raspored.querySelectorAll(".red0").length==0) alert("Greška - raspored nije kreiran");
     let dani = raspored.querySelectorAll(".kolona0");
     let glupaProvjera = false;
     //for(let i = 0 ; i<dani.length; i++) console.log(dani[i].getAttribute("id"));

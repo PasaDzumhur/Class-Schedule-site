@@ -1,6 +1,6 @@
 let assert = chai.assert;
 describe('modul', function (){
-    describe('#Testovi bez alerta', function (){
+    describe('#Testovi za iscrtajRaspored', function (){
         it('Broj kolona mora biti jednak broju dana',function (){
             let okvir=document.createElement("div");
             modul.iscrtajRaspored(okvir,["Ponedjeljak","Utorak","Srijeda","Četvrtak","Petak"],9,21);
@@ -11,6 +11,7 @@ describe('modul', function (){
             let okvir = document.createElement("div");
             modul.iscrtajRaspored(okvir,["Ponedjeljak","Utorak","Srijeda"],9,21);
             assert.equal(okvir.querySelectorAll(".kolona0").length,3);
-        })
+        });
+        it('')
     })
 })
