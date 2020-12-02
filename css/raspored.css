@@ -79,6 +79,15 @@
         border-bottom-style: none;
 
     }
+    #okvir2{
+        display: inline-grid;
+        grid-template-columns: 1fr !important;
+        grid-template-rows: auto !important;
+        margin-top: 5%;
+        border-style: solid;
+        border-bottom-style: none;
+
+    }
 
     .kolona0{
         grid-area: auto / 1 / auto / 1 !important;
