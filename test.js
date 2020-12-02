@@ -91,7 +91,74 @@ describe('modul', function (){
 
     });
     describe('Testovi za dodajAktivnost',function (){
+        it('U rasporedu treba biti 5 predmeta',function (){
+            let okvir = document.createElement("div");
+            okvir.setAttribute("id","okvir");
+            modul.iscrtajRaspored(okvir,["Ponedjeljak","Utorak","Srijeda","Četvrtak","Petak"],9,21);
+            modul.dodajAktivnost(okvir,"WT","predavanje",10,13,"Ponedjeljak");
+            modul.dodajAktivnost(okvir,"OOI","predavanje",10,13,"Utorak");
+            modul.dodajAktivnost(okvir,"OIS","predavanje",10,13,"Srijeda");
+            modul.dodajAktivnost(okvir,"VVS","predavanje",10,13,"Četvrtak");
+            modul.dodajAktivnost(okvir,"PJP","predavanje",10,13,"Petak");
+            assert.equal(okvir.querySelectorAll(".grid-item").length,5);
 
+        });
+        it('Testiranje izuzetka kad je vrijeme kraja prije vremena pocetka',function (){
+            let okvir = document.createElement("div");
+            okvir.setAttribute("id","okvir");
+            modul.iscrtajRaspored(okvir,["Ponedjeljak","Utorak","Srijeda","Četvrtak","Petak"],9,21);
+            let greska = modul.dodajAktivnost(okvir,"WT","predavanje",12,10,"Ponedjeljak");
+            assert.equal(greska,"Greška");
+            greska = modul.dodajAktivnost(okvir,"WT","predavanje",19,17,"Ponedjeljak");
+            assert.equal(greska,"Greška")
+
+
+        });
+        it('testiranje kad okvir nije kreiran',function (){
+            assert.equal("Greška",modul.dodajAktivnost(null,"WT","predavanje",11,13,"Ponedjeljak"));
+            let okvir = document.createElement("div");
+            okvir.setAttribute("id","okvir");
+            assert.equal(modul.dodajAktivnost(null,"WT","predavanje",11,13,"Ponedjeljak"),"Greška");
+        });
+        it('testiranje kada se dodaje predmet na dan koji nije u rasporedu',function (){
+            let okvir = document.createElement("div");
+            okvir.setAttribute("id","okvir");
+            modul.iscrtajRaspored(okvir,["Utorak","Četvrtak","Petak"],9,21);
+            assert.equal("Greška",modul.dodajAktivnost(okvir,"WT","predavanje",9,13,"Ponedjeljak"));
+            assert.equal("Greška",modul.dodajAktivnost(okvir,"WT","predavanje",9,13,"Srijeda"));
+
+        });
+        it('testiranje kada se dolazi do poklapanja rasporeda',function (){
+            let okvir = document.createElement("div");
+            okvir.setAttribute("id","okvir");
+            modul.iscrtajRaspored(okvir,["Ponedjeljak","Utorak","Srijeda","Četvrtak","Petak"],9,21);
+            modul.dodajAktivnost(okvir,"WT","predavanje",9,13,"Ponedjeljak");
+            assert.equal("Greška",modul.dodajAktivnost(okvir,"OOI","predavanje",12,14,"Ponedjeljak"));
+            assert.equal("Greška",modul.dodajAktivnost(okvir,"OIS","predavanje",12.5,14,"Ponedjeljak"));
+
+        });
+        it('test sa dosta poziva dodajAktivnost',function (){
+            let okvir = document.createElement("div");
+            okvir.setAttribute("id","okvir");
+            modul.iscrtajRaspored(okvir,["Ponedjeljak","Utorak","Srijeda","Četvrtak","Petak"],9,21);
+            modul.dodajAktivnost(okvir,"WT","predavanje",9,12,"Srijeda");
+            modul.dodajAktivnost(okvir,"WT","vježbe",19,20.5,"Ponedjeljak");
+            modul.dodajAktivnost(okvir,"VVS","vježbe",10.5,12,"Utorak");
+            modul.dodajAktivnost(okvir,"OOI","predavanje",12,15,"Utorak");
+            modul.dodajAktivnost(okvir,"OIS","predavanje",15,18,"Utorak");
+            modul.dodajAktivnost(okvir,"RG","vježbe",12,14,"Srijeda");
+            modul.dodajAktivnost(okvir,"OOI","vježbe",15,16,"Srijeda");
+            modul.dodajAktivnost(okvir,"PJP","vježbe",12,13,"Petak");
+            modul.dodajAktivnost(okvir,"PJP","predavanje",9,12,"Petak");
+            modul.dodajAktivnost(okvir,"RG","predavanje",9,11,"Četvrtak");
+            modul.dodajAktivnost(okvir,"RG","tutorijal",11,12,"Četvrtak");
+            modul.dodajAktivnost(okvir,"VVS","predavanje",12,15,"Četvrtak");
+            assert.equal(12,okvir.querySelectorAll(".grid-item").length);
+            assert.equal("Greška",modul.dodajAktivnost(okvir,"DM","predavanje",9,12,"Petak"));
+            assert.equal(12,okvir.querySelectorAll(".grid-item").length);
+
+
+        })
     })
 
 })

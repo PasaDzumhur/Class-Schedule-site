@@ -143,7 +143,7 @@ function dodajAktivnost(raspored, naziv, tip, vrijemePocetak, vrijemeKraj,dan){
     if((pocetak+kraj)%2==0) grid_item.style.borderRightStyle="solid";
     else grid_item.style.borderRightStyle="dotted";
 
-
+    return "success";
 
 }
 /*

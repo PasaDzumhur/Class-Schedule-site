@@ -69,6 +69,9 @@ var modul = (function (){
 
 
     var dodajAktivnost=function (raspored, naziv, tip, vrijemePocetak, vrijemeKraj, dan){
+        if(raspored==null || raspored.querySelectorAll(".red0").length==0) return "Greška";
+
+        if(vrijemePocetak>=vrijemeKraj) return "Greška";
         let dani = raspored.querySelectorAll(".kolona0");
         let glupaProvjera = false;
         //for(let i = 0 ; i<dani.length; i++) console.log(dani[i].getAttribute("id"));
@@ -81,7 +84,7 @@ var modul = (function (){
 
         }
         if(!glupaProvjera) {
-            alert("Ne valja ti taj raspored");
+            //alert("Ne valja ti taj raspored");
             return "Greška";
         }
         let vremena = raspored.querySelectorAll(".red0");
@@ -92,14 +95,14 @@ var modul = (function (){
         let krajRasporeda = parseFloat(idKraja)+0.5;
         if(vrijemePocetak<pocetakRasporeda || vrijemeKraj>krajRasporeda){
 
-            alert("Ne valja ti taj raspored ");
+            //alert("Ne valja ti taj raspored ");
             return "Greška";
         }
         let pocetak = (vrijemePocetak-pocetakRasporeda)*2;
         let kraj = (vrijemeKraj-vrijemePocetak)*2;
         for(let i = pocetak+1; i<pocetak+kraj+1; i++){
             if(raspored.querySelectorAll("#rupa"+kolona+"-"+i).length==0){
-                alert("Poklapanje u rasporedu");
+                //alert("Poklapanje u rasporedu");
                 return "Greška";
             }
         }
@@ -143,6 +146,7 @@ var modul = (function (){
         if((pocetak+kraj)%2==0) grid_item.style.borderRightStyle="solid";
         else grid_item.style.borderRightStyle="dotted";
 
+        return "success";
 
 
     }
