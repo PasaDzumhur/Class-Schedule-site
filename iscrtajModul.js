@@ -1,7 +1,7 @@
 var modul = (function (){
     var iscrtajRaspored=function (div ,dani,satPocetak,satKraj) {
         if (satPocetak >= satKraj || satPocetak<0 || satPocetak>24 || satKraj<0 || satPocetak>24 ||
-        !Number.isInteger(satPocetak) || !Number.isInteger(satKraj)) {
+            !Number.isInteger(satPocetak) || !Number.isInteger(satKraj)) {
             //alert("Ne moze to tako...");
             div.innerHTML="Greška";
             return;
@@ -63,15 +63,18 @@ var modul = (function (){
             divPom.style.borderRightStyle = "solid";
             divPom.style.fontSize = "x-large";
             divPom.style.alignContent = "center";
+            //divPom.style=""+i;
         }
     }
-
 
 
     var dodajAktivnost=function (raspored, naziv, tip, vrijemePocetak, vrijemeKraj, dan){
         if(raspored==null || raspored.querySelectorAll(".red0").length==0) return "Greška";
 
         if(vrijemePocetak>=vrijemeKraj) return "Greška";
+        if(!Number.isInteger(vrijemePocetak) && Math.abs(Math.round(vrijemePocetak)-vrijemePocetak)!=0.5) return "Greška";
+        if(!Number.isInteger(vrijemeKraj) && Math.abs(Math.round(vrijemeKraj)-vrijemeKraj)!=0.5) return "Greška";
+
         let dani = raspored.querySelectorAll(".kolona0");
         let glupaProvjera = false;
         //for(let i = 0 ; i<dani.length; i++) console.log(dani[i].getAttribute("id"));
@@ -130,7 +133,7 @@ var modul = (function (){
 
             console.log("rupa" + kolona + "-" + i);
             let izbrisani=raspored.querySelectorAll("#rupa"+kolona+"-"+i);
-            
+
             izbrisani[0].remove();
 
         }
@@ -145,6 +148,7 @@ var modul = (function (){
         grid_item.style.textAlign="center";
         if((pocetak+kraj)%2==0) grid_item.style.borderRightStyle="solid";
         else grid_item.style.borderRightStyle="dotted";
+        grid_item.style.order=""+kolona;
 
         return "success";
 
