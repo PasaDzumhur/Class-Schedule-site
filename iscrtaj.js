@@ -69,6 +69,9 @@ function dodajAktivnost(raspored, naziv, tip, vrijemePocetak, vrijemeKraj,dan){
     if(raspored==null || raspored.querySelectorAll(".red0").length==0) return "Greška";
 
     if(vrijemePocetak>=vrijemeKraj) return "Greška";
+    if(!Number.isInteger(vrijemePocetak) && Math.abs(Math.round(vrijemePocetak)-vrijemePocetak)!=0.5) return "Greška";
+    if(!Number.isInteger(vrijemeKraj) && Math.abs(Math.round(vrijemeKraj)-vrijemeKraj)!=0.5) return "Greška";
+
     let dani = raspored.querySelectorAll(".kolona0");
     let glupaProvjera = false;
     //for(let i = 0 ; i<dani.length; i++) console.log(dani[i].getAttribute("id"));
