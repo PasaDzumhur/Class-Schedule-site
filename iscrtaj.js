@@ -6,73 +6,73 @@ function iscrtajRaspored(div ,dani,satPocetak,satKraj){
         return;
     }
 
-    let kolone=(satKraj-satPocetak)*2+1;
-    let redovi=dani.length;
+    let kolone = (satKraj - satPocetak) * 2 + 1;
+    let redovi = dani.length;
     let rupa1 = document.createElement("div");
-    rupa1.setAttribute("class","red0");
+    rupa1.setAttribute("class", "red0");
     div.appendChild(rupa1);
-    rupa1.style.gridColumn="1/3";
-    rupa1.style.gridRow="1";
-    rupa1.style.borderBottomStyle="none";
-    for(let i = satPocetak; i<satKraj; i = i + 0.5){
-        if(i!=satKraj &&(i==0 || i==2 || i==4 || i==6 || i ==8 || i==10 || i==12 || i==15 || i==17 || i==19 || i==21 || i==23 )){
+    rupa1.style.gridColumn = "1/3";
+    rupa1.style.gridRow = "1";
+    rupa1.style.borderBottomStyle = "none";
+    for (let i = satPocetak; i < satKraj; i = i + 0.5) {
+        if (i != satKraj && (i == 0 || i == 2 || i == 4 || i == 6 || i == 8 || i == 10 || i == 12 || i == 15 || i == 17 || i == 19 || i == 21 || i == 23)) {
             let vrijeme = document.createElement("div");
-            let kolikoJe = document.createTextNode(i+":00");
+            let kolikoJe = document.createTextNode(i + ":00");
             vrijeme.appendChild(kolikoJe);
-            vrijeme.setAttribute("class","red0");
-            vrijeme.setAttribute("id","satiJe"+i);
+            vrijeme.setAttribute("class", "red0");
+            vrijeme.setAttribute("id", "satiJe" + i);
             div.appendChild(vrijeme);
-            vrijeme.style.alignContent="left";
-            vrijeme.style.gridRow="1";
-        }else {
+            vrijeme.style.alignContent = "left";
+            vrijeme.style.gridRow = "1";
+        } else {
 
             let rupa = document.createElement("div");
             div.appendChild(rupa);
-            rupa.setAttribute("class","red0");
-            rupa.setAttribute("id","satiJe"+i);
-            rupa.style.gridRow="1";
+            rupa.setAttribute("class", "red0");
+            rupa.setAttribute("id", "satiJe" + i);
+            rupa.style.gridRow = "1";
         }
 
     }
-    div.style.gridTemplateColumns="100px repeat("+kolone+",1fr)";
-    div.style.gridTemplateRows="30px repeat("+redovi+",1fr)";
-    for(let i = 0; i<redovi; i++){
-        for(let j = 1; j<kolone; j++){
-            let divPom=document.createElement("div");
+    div.style.gridTemplateColumns = "100px repeat(" + kolone + ",1fr)";
+    div.style.gridTemplateRows = "30px repeat(" + redovi + ",1fr)";
+    for (let i = 0; i < redovi; i++) {
+        for (let j = 1; j < kolone; j++) {
+            let divPom = document.createElement("div");
             let klase = "";
-            if(i==0) klase = klase + "red1";
-            if(j%2==0) klase = klase+ " " +"crta";
+            if (i == 0) klase = klase + "red1";
+            if (j % 2 == 0) klase = klase + " " + "crta";
             else klase = klase + " " + "crtice";
-            divPom.setAttribute("class",klase);
-            divPom.setAttribute("id","rupa"+(i+1)+"-"+j);
+            divPom.setAttribute("class", klase);
+            divPom.setAttribute("id", "rupa" + (i + 1) + "-" + j);
             //divPom.style.gridRow=(i+2);
             //divPom.style.gridColumn=(j+2);
             div.appendChild(divPom);
         }
     }
-    for(let i = 0; i<dani.length; i++){
+    for (let i = 0; i < dani.length; i++) {
         let divPom = document.createElement("div");
         let dan = document.createTextNode(dani[i]);
-        divPom.setAttribute("id",dani[i]);
-        divPom.setAttribute("class","kolona0")
+        divPom.setAttribute("id", dani[i]);
+        divPom.setAttribute("class", "kolona0")
         divPom.appendChild(dan);
         div.appendChild((divPom));
-        divPom.style.gridRow=(i+2);
-        divPom.style.gridColumn="1/3";
-        divPom.style.borderRightStyle="solid";
-        divPom.style.fontSize="x-large";
-        divPom.style.alignContent="center";
+        divPom.style.gridRow = (i + 2);
+        divPom.style.gridColumn = "1/3";
+        divPom.style.borderRightStyle = "solid";
+        divPom.style.fontSize = "x-large";
+        divPom.style.alignContent = "center";
     }
-    div.setAttribute("class","kreiran");
-
-
 }
 
 function dodajAktivnost(raspored, naziv, tip, vrijemePocetak, vrijemeKraj,dan){
-    if(raspored==null || raspored.querySelectorAll(".red0").length==0) alert("Greška - raspored nije kreiran");
+    if(raspored==null || raspored.querySelectorAll(".red0").length==0) return "Greška";
+
+    if(vrijemePocetak>=vrijemeKraj) return "Greška";
     let dani = raspored.querySelectorAll(".kolona0");
     let glupaProvjera = false;
     //for(let i = 0 ; i<dani.length; i++) console.log(dani[i].getAttribute("id"));
+    let kolona;
     for(let i = 0 ; i<dani.length; i++){
         if(dani[i].getAttribute("id")==dan){
             glupaProvjera=true;
@@ -81,8 +81,8 @@ function dodajAktivnost(raspored, naziv, tip, vrijemePocetak, vrijemeKraj,dan){
 
     }
     if(!glupaProvjera) {
-        alert("Ne valja ti taj raspored");
-        return ;
+        //alert("Ne valja ti taj raspored");
+        return "Greška";
     }
     let vremena = raspored.querySelectorAll(".red0");
     //for(let i = 0 ; i<vremena.length; i++) console.log(vremena[i].getAttribute("id"));
@@ -92,15 +92,15 @@ function dodajAktivnost(raspored, naziv, tip, vrijemePocetak, vrijemeKraj,dan){
     let krajRasporeda = parseFloat(idKraja)+0.5;
     if(vrijemePocetak<pocetakRasporeda || vrijemeKraj>krajRasporeda){
 
-        alert("Ne valja ti taj raspored ");
-        return ;
+        //alert("Ne valja ti taj raspored ");
+        return "Greška";
     }
     let pocetak = (vrijemePocetak-pocetakRasporeda)*2;
     let kraj = (vrijemeKraj-vrijemePocetak)*2;
     for(let i = pocetak+1; i<pocetak+kraj+1; i++){
         if(raspored.querySelectorAll("#rupa"+kolona+"-"+i).length==0){
-            alert("Poklapanje u rasporedu");
-            return ;
+            //alert("Poklapanje u rasporedu");
+            return "Greška";
         }
     }
     let grid_item = document.createElement("div");
@@ -137,7 +137,7 @@ function dodajAktivnost(raspored, naziv, tip, vrijemePocetak, vrijemeKraj,dan){
     console.log((kraj+3));
     grid_item.style.gridColumnStart=(pocetak+3);
     grid_item.style.gridColumnEnd=(pocetak+kraj+3);
-    //grid_item.style.borderTopStyle="solid";
+
     grid_item.style.borderBottomStyle="solid";
     grid_item.style.textAlign="center";
     if((pocetak+kraj)%2==0) grid_item.style.borderRightStyle="solid";
@@ -145,14 +145,15 @@ function dodajAktivnost(raspored, naziv, tip, vrijemePocetak, vrijemeKraj,dan){
 
     return "success";
 
+
 }
-/*
+
 let okvir = document.getElementById("okvir");
 iscrtajRaspored(okvir,["Ponedjeljak","Utorak","Srijeda","Četvrtak"],9,21);
-dodajAktivnost(okvir,"WT","predavanje",9,12,"Ponedjeljak");
-dodajAktivnost(okvir,"WT","vježbe",12,13.5,"Ponedjeljak");
-dodajAktivnost(okvir,"RMA","predavanje",14,17,"Ponedjeljak");
-dodajAktivnost(okvir,"RMA","vježbe",12.5,14,"Utorak");
-dodajAktivnost(okvir,"DM","tutorijal",14,16,"Utorak");
-dodajAktivnost(okvir,"DM","predavanje",16,19,"Utorak");*/
-//dodajAktivnost(okvir,"OI","predavanje",12,15,"Ponedjeljak");
+if(dodajAktivnost(okvir,"WT","predavanje",9,12,"Ponedjeljak")=="Greška") alert("Greška");
+if(dodajAktivnost(okvir,"WT","vježbe",12,13.5,"Ponedjeljak")=="Greška") alert("Greška");
+if(dodajAktivnost(okvir,"RMA","predavanje",14,17,"Ponedjeljak")=="Greška") alert("Greška");
+if(dodajAktivnost(okvir,"RMA","vježbe",12.5,14,"Utorak")=="Greška") alert("Greška");
+if(dodajAktivnost(okvir,"DM","tutorijal",14,16,"Utorak")=="Greška") alert("Greška");
+if(dodajAktivnost(okvir,"DM","predavanje",16,19,"Utorak")=="Greška") alert("Greška");
+
