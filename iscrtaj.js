@@ -62,6 +62,7 @@ function iscrtajRaspored(div ,dani,satPocetak,satKraj){
         divPom.style.borderRightStyle = "solid";
         divPom.style.fontSize = "x-large";
         divPom.style.alignContent = "center";
+        //divPom.style=""+i;
     }
 }
 
@@ -145,6 +146,7 @@ function dodajAktivnost(raspored, naziv, tip, vrijemePocetak, vrijemeKraj,dan){
     grid_item.style.textAlign="center";
     if((pocetak+kraj)%2==0) grid_item.style.borderRightStyle="solid";
     else grid_item.style.borderRightStyle="dotted";
+    grid_item.style.order=""+kolona;
 
     return "success";
 
