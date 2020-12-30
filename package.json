@@ -1,0 +1,21 @@
+{
+  "name": "Spirala3npm i",
+  "version": "1.0.0",
+  "description": "This README would normally document whatever steps are necessary to get your application up and running.",
+  "main": "iscrtaj.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://pdzumhur1@bitbucket.org/pdzumhur1/wt20p18347.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/pdzumhur1/wt20p18347#readme",
+  "dependencies": {
+    "ajax": "0.0.4",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1"
+  }
+}

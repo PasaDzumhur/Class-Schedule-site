@@ -161,4 +161,3 @@ if(dodajAktivnost(okvir,"RMA","predavanje",14,17,"Ponedjeljak")=="Greška") aler
 if(dodajAktivnost(okvir,"RMA","vježbe",12.5,14,"Utorak")=="Greška") alert("Greška");
 if(dodajAktivnost(okvir,"DM","tutorijal",14,16,"Utorak")=="Greška") alert("Greška");
 if(dodajAktivnost(okvir,"DM","predavanje",16,19,"Utorak")=="Greška") alert("Greška");
-
