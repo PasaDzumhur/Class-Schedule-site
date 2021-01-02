@@ -45,11 +45,40 @@ app.get('/aktivnosti',function (req,res){
             +"','"+head[2]+"':'"+red[2]+"','"+head[3]+"':'"+red[3]+"','"+
                 head[4]+"':'"+red[4]+"'}";
         }
-        stringJson+="}";
+        stringJson+="]";
         res.json(stringJson);
     })
 })
+app.get('/predmet/:naziv/aktivnosti',function (req,res){
+    fs.readFile("aktivnosti.txt",function read(err,buf){
+        if(err) {
+            console.log(err);
+            return ;
+        }
+        //var naziv=url.parse(req.url,true).query.predmet.naziv;
+        let link = req.url;
+        let parametri = link.split('/');
+        let naziv = parametri[2];
 
+
+        let text = buf.toString();
+        let redovi = text.split('\n');
+        let stringJson="[";
+        let head = redovi[0].split(',');
+        for(let i = 1; i<redovi.length; i++){
+            let red = redovi[i].split(",");
+            if(red[0]==naziv){
+
+                if(i != 1) stringJson += ",";
+            stringJson += "{'" + head[0] + "':'" + red[0] + "','" + head[1] + "':'" + red[1]
+                + "','" + head[2] + "':'" + red[2] + "','" + head[3] + "':'" + red[3] + "','" +
+                head[4] + "':'" + red[4] + "'}";
+        }
+        }
+        stringJson+="]";
+        res.json(stringJson);
+    })
+})
 
 
 
