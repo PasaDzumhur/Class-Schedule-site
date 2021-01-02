@@ -35,16 +35,33 @@ app.post('/predmeti',function (req,res){
     console.log("test");
     let tijelo = req.body;
     console.log(tijelo);
-
-    let novaLinija="\n"+tijelo["naziv"];
-    fs.appendFile('predmeti.txt',novaLinija,function (err){
-        if(err){
+    let naziv= tijelo["naziv"];
+    fs.readFile("predmeti.txt",function read(err,buf){
+        if(err) {
             console.log(err);
-            return;
+            return ;
         }
-        console.log("Predmet uspjesno dodat");
-        res.json({message: "Uspjesno dodan predmet"});
+        let text =buf.toString();
+        let textovi = text.split('\n');
+        for( let i = 0; i<textovi.length; i++){
+            console.log(textovi[i]);
+            if(textovi[i]==naziv){
+                res.json({message: "Naziv predmeta postoji"});
+                return;
+            }
+        }
+        let novaLinija="\n"+tijelo["naziv"];
+        fs.appendFile('predmeti.txt',novaLinija,function (err){
+            if(err){
+                console.log(err);
+                return;
+            }
+            console.log("Predmet uspjesno dodat");
+            res.json({message: "Uspjesno dodan predmet"});
+        })
     })
+
+
 
 
 })
