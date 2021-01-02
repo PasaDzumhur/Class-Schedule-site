@@ -9,7 +9,9 @@ const app = express();
 console.log("testPrije");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(express.static(__dirname+"/public"));
+
 app.get('/predmeti',function (req,res){
     fs.readFile("predmeti.txt",function read (err,buf){
         if(err) {
@@ -28,6 +30,25 @@ app.get('/predmeti',function (req,res){
 
     });
 });
+
+app.post('/predmeti',function (req,res){
+    console.log("test");
+    let tijelo = req.body;
+    console.log(tijelo);
+
+    let novaLinija="\n"+tijelo["naziv"];
+    fs.appendFile('predmeti.txt',novaLinija,function (err){
+        if(err){
+            console.log(err);
+            return;
+        }
+        console.log("Predmet uspjesno dodat");
+        res.json({message: "Uspjesno dodan predmet"});
+    })
+
+
+})
+
 app.get('/aktivnosti',function (req,res){
     fs.readFile("aktivnosti.txt",function read(err,buf){
         if(err) {
