@@ -11,18 +11,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname+"/public"));
 app.get('/predmeti',function (req,res){
-    //console.dir("test");
-    let param=url.parse(req.url,true).query;
-
     fs.readFile("predmeti.txt",function read (err,buf){
-
-        if(err) console.log(err);
-        //res.writeHead(200, {'Content-Type': 'application/json'});
+        if(err) {
+            console.log(err);
+            return ;
+        }
         let text = buf.toString();
-        //console.log("text");
         let textovi = text.split('\n');
-        //
-
         let stringJson = "[";
         for( let i = 1; i<textovi.length; i++){
             if(i!=1) stringJson+=",";
@@ -31,14 +26,29 @@ app.get('/predmeti',function (req,res){
         stringJson+="]";
         res.json(stringJson);
 
-        //res.json({textovi});
     });
-
-    //res.send("radi");
-
-
-
 });
+app.get('/aktivnosti',function (req,res){
+    fs.readFile("aktivnosti.txt",function read(err,buf){
+        if(err) {
+            console.log(err);
+            return ;
+        }
+        let text = buf.toString();
+        let redovi = text.split('\n');
+        let stringJson="[";
+        let head = redovi[0].split(',');
+        for(let i = 1; i<redovi.length; i++){
+            let red = redovi[i].split(",");
+            if(i!=1)stringJson+=",";
+            stringJson+="{'"+head[0]+"':'"+red[0]+"','"+head[1]+"':'"+red[1]
+            +"','"+head[2]+"':'"+red[2]+"','"+head[3]+"':'"+red[3]+"','"+
+                head[4]+"':'"+red[4]+"'}";
+        }
+        stringJson+="}";
+        res.json(stringJson);
+    })
+})
 
 
 

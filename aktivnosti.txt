@@ -1,0 +1,4 @@
+naziv,tip,pocetak,kraj,dan
+RMA,predavanje,9,12,Ponedjeljak
+WT,predavanje,9,12,Srijeda
+WT,vjezba,19,20,Ponedjeljak
