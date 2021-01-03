@@ -145,6 +145,44 @@ app.get('/predmet/:naziv/aktivnosti',function (req,res){
     })
 })
 
+app.delete('/predmet/:naziv',function (req,res){
+    fs.readFile("predmeti.txt",function read(err,buf){
+        if(err){
+            console.log(err);
+            return;
+        }
+        let link = req.url;
+        let parametri = link.split('/');
+        let naziv = parametri[2];
+        let text = buf.toString();
+        let textovi = text.split('\n');
+        //let izbrisan=false;
+
+        let filter = textovi.filter(function (value,index,arr){
+            return naziv!=value;
+        });
+        if(textovi.length!=filter.length){
+            let noviFajl ="";
+            for(let i = 0; i<filter.length; i++){
+                if(i!=0) noviFajl+="\n";
+                noviFajl+=filter[i];
+            }
+            fs.writeFile("predmeti.txt",noviFajl,function (err){
+                if(err) {
+                    console.log(err);
+                    return ;
+                }
+                res.json({message: "Predmet izbrisan"});
+            })
+        }else{
+            res.json({message: "Greška - predmet nije izbrisan!"});
+        }
+
+
+
+    })
+})
+
 
 
 

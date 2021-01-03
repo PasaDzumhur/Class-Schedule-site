@@ -1,6 +1,4 @@
 naziv
-Diskretna matematika
-Razvoj programskih rješenja
-Web tehnologije
-
-Algoritmi i strukture podataka
+RPR
+ASP
+IM1
