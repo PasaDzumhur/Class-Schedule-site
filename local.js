@@ -87,6 +87,33 @@ app.get('/aktivnosti',function (req,res){
         res.json(stringJson);
     })
 })
+
+app.post('/aktivnosti',function (req,res){
+    let tijelo = req.body;
+    fs.readFile("aktivnosti.txt",function read(err,buf){
+        if(err) {
+            console.log(err);
+            return ;
+        }
+        let naziv = tijelo["naziv"];
+        let tip = tijelo["tip"];
+        let pocetak = tijelo["pocetak"];
+        let kraj = tijelo["kraj"];
+        let dan = tijelo["dan"];
+
+        //ovdje ide dio za provjeru da li je aktivnost valida
+        let novaLinija = "\n"+naziv+","+tip+","+pocetak+","+kraj+","+dan;
+        fs.appendFile('aktivnosti.txt',novaLinija,function (err){
+            if(err){
+                console.log(err);
+                return;
+            }
+            console.log("Aktivnost uspjesno dodata");
+            res.json({message: "Uspjesno dodana aktivnost"});
+        })
+    })
+})
+
 app.get('/predmet/:naziv/aktivnosti',function (req,res){
     fs.readFile("aktivnosti.txt",function read(err,buf){
         if(err) {
