@@ -177,9 +177,40 @@ app.delete('/predmet/:naziv',function (req,res){
         }else{
             res.json({message: "Greška - predmet nije izbrisan!"});
         }
+    })
+})
 
-
-
+app.delete('/aktivnost/:naziv',function (req,res){
+    fs.readFile("aktivnosti.txt",function read(err,buf){
+        if(err){
+            console.log(err);
+            return;
+        }
+        let link = req.url;
+        let parametri = link.split('/');
+        let naziv = parametri[2];
+        let text = buf.toString();
+        let textovi = text.split('\n');
+        let filter = textovi.filter(function (value,index,arr){
+            let red = value.split(",");
+            return red[0]!=naziv;
+        });
+        if(textovi.length!=filter.length){
+            let noviFajl ="";
+            for(let i = 0; i<filter.length; i++){
+                if(i!=0) noviFajl+="\n";
+                noviFajl+=filter[i];
+            }
+            fs.writeFile("aktivnosti.txt",noviFajl,function (err){
+                if(err) {
+                    console.log(err);
+                    return ;
+                }
+                res.json({message: "Aktivnost izbrisana"});
+            })
+        }else{
+            res.json({message: "Greška - Aktivnost nije izbrisana!"});
+        }
     })
 })
 
