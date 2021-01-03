@@ -214,6 +214,22 @@ app.delete('/aktivnost/:naziv',function (req,res){
     })
 })
 
+app.delete("/all",function (req,res){
+    fs.writeFile("predmeti.txt","",function (err){
+        if(err){
+            console.log(err);
+            res.json({message: "Greška - Sadržaj datoteka nije moguće obrisati"});
+        }
+    });
+    fs.writeFile("aktivnosti.txt","",function (err){
+        if(err){
+            console.log(err);
+            res.json({message: "Greška - Sadržaj datoteka nije moguće obrisati"});
+        }
+    });
+    res.json({message: "Uspješno obrisan sadržaj datoteka"});
+})
+
 
 
 
