@@ -80,10 +80,7 @@ app.get('/aktivnosti',function (req,res){
         //let head = redovi[0].split(',');
         for(let i = 0; i<redovi.length; i++){
             let red = redovi[i].split(",");
-            /*if(i!=1)stringJson+=",";
-            stringJson+="{'"+head[0]+"':'"+red[0]+"','"+head[1]+"':'"+red[1]
-            +"','"+head[2]+"':'"+red[2]+"','"+head[3]+"':'"+red[3]+"','"+
-                head[4]+"':'"+red[4]+"'}";*/
+
             json.push({naziv : red[0], tip : red[1], pocetak : red[2], kraj : red[3], dan : red[4]});
         }
         //stringJson+="]";
@@ -100,9 +97,26 @@ app.post('/aktivnosti',function (req,res){
         }
         let naziv = tijelo["naziv"];
         let tip = tijelo["tip"];
-        let pocetak = tijelo["pocetak"];
-        let kraj = tijelo["kraj"];
+        let pocetak = parseFloat(tijelo["pocetak"]);
+        let kraj = parseFloat(tijelo["kraj"]);
+        if(!Number.isInteger(pocetak) && Math.abs(Math.round(pocetak)-pocetak)!=0.5) res.json({message: "Aktivnost nije validna"});
+        if(!Number.isInteger(kraj) && Math.abs(Math.round(kraj)-kraj)!=0.5) res.json({message: "Aktivnost nije validna"});
         let dan = tijelo["dan"];
+        let text =buf.toString();
+        let textovi = text.split('\n');
+        for(let i = 0 ; i<textovi.length; i++){
+            let info = textovi[i].split(',');
+            //console.log(dan + "??" + info[4]);
+            if(info[4]==dan){
+                let granicaPocetak = parseFloat(info[2]);
+                let granicaKraj = parseFloat(info[3]);
+                if((pocetak>=granicaPocetak && pocetak<granicaKraj) || (kraj>granicaPocetak && kraj<=granicaKraj)){
+                    console.log("proslo");
+                    res.json({message: "Aktivnost nije validna"});
+                    return ;
+                }
+            }
+        }
 
         //ovdje ide dio za provjeru da li je aktivnost valida
         let novaLinija = "\n"+naziv+","+tip+","+pocetak+","+kraj+","+dan;
