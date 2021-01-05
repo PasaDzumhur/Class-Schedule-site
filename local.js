@@ -20,18 +20,20 @@ app.get('/predmeti',function (req,res){
         }
         let text = buf.toString();
         let textovi = text.split('\n');
-        let stringJson = "[";
-        for( let i = 1; i<textovi.length; i++){
-            if(i!=1) stringJson+=",";
-            stringJson += "{'"+textovi[0]+"':'"+textovi[i]+"'}";
+        let json = [];
+        for( let i = 0; i<textovi.length; i++){
+            /*if(i!=0) stringJson+=",";
+            //stringJson += "{'"+textovi[0]+"':'"+textovi[i]+"'}";
+            stringJson += "{\"naziv\":\""+ textovi[i]+"\"}";*/
+            json.push({naziv : textovi[i]});
         }
-        stringJson+="]";
-        res.json(stringJson);
+        //stringJson+="]";
+        res.json(json);
 
     });
 });
 
-app.post('/predmeti',function (req,res){
+app.post('/predmet',function (req,res){
     console.log("test");
     let tijelo = req.body;
     console.log(tijelo);
@@ -74,17 +76,18 @@ app.get('/aktivnosti',function (req,res){
         }
         let text = buf.toString();
         let redovi = text.split('\n');
-        let stringJson="[";
-        let head = redovi[0].split(',');
-        for(let i = 1; i<redovi.length; i++){
+        let json=[];
+        //let head = redovi[0].split(',');
+        for(let i = 0; i<redovi.length; i++){
             let red = redovi[i].split(",");
-            if(i!=1)stringJson+=",";
+            /*if(i!=1)stringJson+=",";
             stringJson+="{'"+head[0]+"':'"+red[0]+"','"+head[1]+"':'"+red[1]
             +"','"+head[2]+"':'"+red[2]+"','"+head[3]+"':'"+red[3]+"','"+
-                head[4]+"':'"+red[4]+"'}";
+                head[4]+"':'"+red[4]+"'}";*/
+            json.push({naziv : red[0], tip : red[1], pocetak : red[2], kraj : red[3], dan : red[4]});
         }
-        stringJson+="]";
-        res.json(stringJson);
+        //stringJson+="]";
+        res.json(json);
     })
 })
 
@@ -128,20 +131,17 @@ app.get('/predmet/:naziv/aktivnosti',function (req,res){
 
         let text = buf.toString();
         let redovi = text.split('\n');
-        let stringJson="[";
-        let head = redovi[0].split(',');
+        let json=[];
+
         for(let i = 1; i<redovi.length; i++){
             let red = redovi[i].split(",");
             if(red[0]==naziv){
+                json.push({naziv : red[0], tip : red[1], pocetak : red[2], kraj : red[3], dan : red[4]});
 
-                if(i != 1) stringJson += ",";
-            stringJson += "{'" + head[0] + "':'" + red[0] + "','" + head[1] + "':'" + red[1]
-                + "','" + head[2] + "':'" + red[2] + "','" + head[3] + "':'" + red[3] + "','" +
-                head[4] + "':'" + red[4] + "'}";
+            }
         }
-        }
-        stringJson+="]";
-        res.json(stringJson);
+
+        res.json(json);
     })
 })
 
