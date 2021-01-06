@@ -25,6 +25,7 @@ app.get('/predmeti',function (req,res){
             /*if(i!=0) stringJson+=",";
             //stringJson += "{'"+textovi[0]+"':'"+textovi[i]+"'}";
             stringJson += "{\"naziv\":\""+ textovi[i]+"\"}";*/
+            if(textovi[i]=="") continue;
             json.push({naziv : textovi[i]});
         }
         //stringJson+="]";
