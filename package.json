@@ -17,5 +17,10 @@
     "ajax": "0.0.4",
     "express": "^4.17.1",
     "express-session": "^1.17.1"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^8.2.1",
+    "request": "^2.88.2"
   }
 }

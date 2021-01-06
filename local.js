@@ -52,7 +52,7 @@ app.post('/predmet',function (req,res){
                 return;
             }
         }
-        let novaLinija="\n"+tijelo["naziv"];
+        let novaLinija=tijelo["naziv"]+"\n";
         fs.appendFile('predmeti.txt',novaLinija,function (err){
             if(err){
                 console.log(err);
@@ -118,8 +118,7 @@ app.post('/aktivnosti',function (req,res){
             }
         }
 
-        //ovdje ide dio za provjeru da li je aktivnost valida
-        let novaLinija = "\n"+naziv+","+tip+","+pocetak+","+kraj+","+dan;
+        let novaLinija = naziv+","+tip+","+pocetak+","+kraj+","+dan+"\n";
         fs.appendFile('aktivnosti.txt',novaLinija,function (err){
             if(err){
                 console.log(err);
