@@ -10,7 +10,7 @@
 <body>
 
 <div id="unosPodataka">
-    <form class="form" action="" method="#">
+    <form class="form" onsubmit="return false">
         <label for="naziv">Naziv:</label>
         <input type="text" id="naziv" name="" value="">
         <br>
@@ -37,7 +37,7 @@
             <option value="Subota">Subota</option>
             <option value="Nedjelja">Nedjelja</option>
         </select>
-        <button type="submit" value="Unesi" id="unesi"></button>
+        <button onclick="unesi()">Unesi</button>
     </form>
 </div>
 <script src="unosRasporeda.js"></script>
