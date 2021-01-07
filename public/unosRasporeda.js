@@ -38,6 +38,12 @@ function unesi(){
     let pocetak = document.getElementById("pocetak").value;
     let kraj = document.getElementById("kraj").value;
     let dan = document.getElementById("dan").value;
+
+    console.log("naziv: " + naziv);
+    console.log("tip: " + tip);
+    console.log("pocetak: " + pocetak);
+    console.log("kraj: " + kraj);
+    console.log("dan: " + dan);
     let json ={naziv : naziv, tip : tip, pocetak : pocetak, kraj : kraj, dan :dan};
     let postoji = false;
     for(let i = 0; i<predmeti.length; i++){
