@@ -41,7 +41,7 @@ describe('testovi iz txt-a',() =>{
             //console.log(testovi[i]);
             it("test broj: "+(i+1),(done) =>{
                 //assert.equal(true,true);
-                console.log(testovi[i]);
+                //console.log(testovi[i]);
                 let parametri = testovi[i].split(',');
                 let operacija = parametri[0];
                 let ruta = parametri[1];

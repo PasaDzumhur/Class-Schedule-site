@@ -12,236 +12,186 @@ app.use(express.json());
 app.use(express.static(__dirname+"/public"));
 
 app.get('/predmet',function (req,res){
-    fs.readFile("predmeti.txt",function read (err,buf){
-        if(err) {
-            console.log(err);
-            return ;
-        }
-        let text = buf.toString();
-        let textovi = text.split('\n');
-        let json = [];
-        for( let i = 0; i<textovi.length; i++){
-            /*if(i!=0) stringJson+=",";
-            //stringJson += "{'"+textovi[0]+"':'"+textovi[i]+"'}";
-            stringJson += "{\"naziv\":\""+ textovi[i]+"\"}";*/
-            if(textovi[i]=="") continue;
-            json.push({naziv : textovi[i]});
-        }
-        //stringJson+="]";
-        res.json(json);
+    let buf = fs.readFileSync("predmeti.txt");
 
-    });
+    let text = buf.toString();
+    let textovi = text.split('\n');
+    let json = [];
+    for( let i = 0; i<textovi.length; i++){
+        /*if(i!=0) stringJson+=",";
+        //stringJson += "{'"+textovi[0]+"':'"+textovi[i]+"'}";
+        stringJson += "{\"naziv\":\""+ textovi[i]+"\"}";*/
+        if(textovi[i]=="") continue;
+        json.push({naziv : textovi[i]});
+    }
+    //stringJson+="]";
+    res.json(json);
+
 });
 
 app.post('/predmet',function (req,res){
     let tijelo = req.body;
     let naziv= tijelo["naziv"];
-    fs.readFile("predmeti.txt",function read(err,buf){
-        if(err) {
-            console.log(err);
-            return ;
+    let buf = fs.readFileSync("predmeti.txt");
+
+    let text =buf.toString();
+    let textovi = text.split('\n');
+    for( let i = 0; i<textovi.length; i++){
+
+        if(textovi[i]==naziv){
+            res.json({message: "Naziv predmeta postoji"});
+            return;
         }
-        let text =buf.toString();
-        let textovi = text.split('\n');
-        for( let i = 0; i<textovi.length; i++){
+    }
+    let novaLinija=tijelo["naziv"]+"\n";
+    fs.appendFileSync('predmeti.txt',novaLinija)
 
-            if(textovi[i]==naziv){
-                res.json({message: "Naziv predmeta postoji"});
-                return;
-            }
-        }
-        let novaLinija=tijelo["naziv"]+"\n";
-        fs.appendFile('predmeti.txt',novaLinija,function (err){
-            if(err){
-                console.log(err);
-                return;
-            }
-
-            res.json({message: "Uspješno dodan predmet!"});
-        })
-    })
-
-
-
+    res.json({message: "Uspješno dodan predmet!"});
 
 })
 
 app.get('/aktivnosti',function (req,res){
-    fs.readFile("aktivnosti.txt",function read(err,buf){
-        if(err) {
-            console.log(err);
-            return ;
-        }
-        let text = buf.toString();
-        let redovi = text.split('\n');
-        let json=[];
-        //let head = redovi[0].split(',');
-        for(let i = 0; i<redovi.length; i++){
-            if(redovi[i]=="") continue;
-            let red = redovi[i].split(",");
+    let buf = fs.readFileSync("aktivnosti.txt");
 
-            json.push({naziv : red[0], tip : red[1], pocetak : red[2], kraj : red[3], dan : red[4]});
-        }
-        //stringJson+="]";
-        res.json(json);
-    })
+    let text = buf.toString();
+    let redovi = text.split('\n');
+    let json=[];
+    //let head = redovi[0].split(',');
+    for(let i = 0; i<redovi.length; i++){
+        if(redovi[i]=="") continue;
+        let red = redovi[i].split(",");
+
+        json.push({naziv : red[0], tip : red[1], pocetak : red[2], kraj : red[3], dan : red[4]});
+    }
+    //stringJson+="]";
+    res.json(json);
+
 })
 
 app.post('/aktivnost',function (req,res){
     let tijelo = req.body;
-    fs.readFile("aktivnosti.txt",function read(err,buf){
-        if(err) {
-            console.log(err);
-            return ;
-        }
-        let naziv = tijelo["naziv"];
-        let tip = tijelo["tip"];
-        let pocetak = parseFloat(tijelo["pocetak"]);
-        let kraj = parseFloat(tijelo["kraj"]);
-        if((!Number.isInteger(pocetak) && Math.abs(Math.round(pocetak)-pocetak)!=0.5) || (!Number.isInteger(kraj) && Math.abs(Math.round(kraj)-kraj)!=0.5)) res.json({message: "Aktivnost nije validna!"});
-        if(pocetak<8 || pocetak>21 || kraj<8 || kraj>21) res.json({message: "Aktivnost nije validna!"});
-        //if(!Number.isInteger(kraj) && Math.abs(Math.round(kraj)-kraj)!=0.5) res.json({message: "Aktivnost nije validna"});
-        let dan = tijelo["dan"];
-        let text =buf.toString();
-        let textovi = text.split('\n');
-        for(let i = 0 ; i<textovi.length; i++){
-            let info = textovi[i].split(',');
-            //console.log(dan + "??" + info[4]);
-            if(info[4]==dan){
-                let granicaPocetak = parseFloat(info[2]);
-                let granicaKraj = parseFloat(info[3]);
-                if((pocetak>=granicaPocetak && pocetak<granicaKraj) || (kraj>granicaPocetak && kraj<=granicaKraj)){
+    let buf = fs.readFileSync("aktivnosti.txt");
 
-                    res.json({message: "Aktivnost nije validna!"});
-                    return ;
-                }
+    let naziv = tijelo["naziv"];
+    let tip = tijelo["tip"];
+    let pocetak = parseFloat(tijelo["pocetak"]);
+    let kraj = parseFloat(tijelo["kraj"]);
+    if((!Number.isInteger(pocetak) && Math.abs(Math.round(pocetak)-pocetak)!=0.5) || (!Number.isInteger(kraj) && Math.abs(Math.round(kraj)-kraj)!=0.5)) res.json({message: "Aktivnost nije validna!"});
+    if(pocetak<8 || pocetak>21 || kraj<8 || kraj>21) res.json({message: "Aktivnost nije validna!"});
+    //if(!Number.isInteger(kraj) && Math.abs(Math.round(kraj)-kraj)!=0.5) res.json({message: "Aktivnost nije validna"});
+    let dan = tijelo["dan"];
+    let text =buf.toString();
+    let textovi = text.split('\n');
+    for(let i = 0 ; i<textovi.length; i++){
+        let info = textovi[i].split(',');
+        //console.log(dan + "??" + info[4]);
+        if(info[4]==dan){
+            let granicaPocetak = parseFloat(info[2]);
+            let granicaKraj = parseFloat(info[3]);
+            if((pocetak>=granicaPocetak && pocetak<granicaKraj) || (kraj>granicaPocetak && kraj<=granicaKraj)){
+
+                res.json({message: "Aktivnost nije validna!"});
+                return ;
             }
         }
+    }
 
-        let novaLinija = naziv+","+tip+","+pocetak+","+kraj+","+dan+"\n";
-        fs.appendFile('aktivnosti.txt',novaLinija,function (err){
-            if(err){
-                console.log(err);
-                return;
-            }
+    let novaLinija = naziv+","+tip+","+pocetak+","+kraj+","+dan+"\n";
+    fs.appendFileSync('aktivnosti.txt',novaLinija);
 
-            res.json({message: "Uspješno dodana aktivnost!"});
-        })
-    })
+    res.json({message: "Uspješno dodana aktivnost!"});
+
+
 })
 
 app.get('/predmet/:naziv/aktivnosti',function (req,res){
-    fs.readFile("aktivnosti.txt",function read(err,buf){
-        if(err) {
-            console.log(err);
-            return ;
+    let buf = fs.readFileSync("aktivnosti.txt");
+    let link = req.url;
+    let parametri = link.split('/');
+    let naziv = parametri[2];
+
+
+    let text = buf.toString();
+    let redovi = text.split('\n');
+    let json=[];
+
+    for(let i = 0; i<redovi.length; i++){
+        if(red[i]=="") continue;
+        let red = redovi[i].split(",");
+        if(red[0]==naziv){
+            json.push({naziv : red[0], tip : red[1], pocetak : red[2], kraj : red[3], dan : red[4]});
+
         }
-        //var naziv=url.parse(req.url,true).query.predmet.naziv;
-        let link = req.url;
-        let parametri = link.split('/');
-        let naziv = parametri[2];
+    }
 
-
-        let text = buf.toString();
-        let redovi = text.split('\n');
-        let json=[];
-
-        for(let i = 0; i<redovi.length; i++){
-            if(red[i]=="") continue;
-            let red = redovi[i].split(",");
-            if(red[0]==naziv){
-                json.push({naziv : red[0], tip : red[1], pocetak : red[2], kraj : red[3], dan : red[4]});
-
-            }
-        }
-
-        res.json(json);
-    })
+    res.json(json);
 })
 
 app.delete('/predmet/:naziv',function (req,res){
-    fs.readFile("predmeti.txt",function read(err,buf){
-        if(err){
-            console.log(err);
-            return;
-        }
-        let link = req.url;
-        let parametri = link.split('/');
-        let naziv = parametri[2];
-        let text = buf.toString();
-        let textovi = text.split('\n');
-        //let izbrisan=false;
+    let buf = fs.readFileSync("predmeti.txt");
 
-        let filter = textovi.filter(function (value,index,arr){
-            return naziv!=value;
-        });
-        if(textovi.length!=filter.length){
-            let noviFajl ="";
-            for(let i = 0; i<filter.length; i++){
-                if(i!=0) noviFajl+="\n";
-                noviFajl+=filter[i];
-            }
-            fs.writeFile("predmeti.txt",noviFajl,function (err){
-                if(err) {
-                    console.log(err);
-                    return ;
-                }
-                res.json({message: "Predmet izbrisan"});
-            })
-        }else{
-            res.json({message: "Greška - predmet nije izbrisan!"});
+    let link = req.url;
+    let parametri = link.split('/');
+    let naziv = parametri[2];
+    let text = buf.toString();
+    let textovi = text.split('\n');
+    //let izbrisan=false;
+
+    let filter = textovi.filter(function (value,index,arr){
+        return naziv!=value;
+    });
+    if(textovi.length!=filter.length){
+        let noviFajl ="";
+        for(let i = 0; i<filter.length; i++){
+            if(i!=0) noviFajl+="\n";
+            noviFajl+=filter[i];
         }
-    })
+        fs.writeFileSync("predmeti.txt",noviFajl);
+
+        res.json({message: "Predmet izbrisan"});
+
+    }else{
+        res.json({message: "Greška - predmet nije izbrisan!"});
+    }
 })
 
 app.delete('/aktivnost/:naziv',function (req,res){
-    fs.readFile("aktivnosti.txt",function read(err,buf){
-        if(err){
-            console.log(err);
-            return;
+    let buf = fs.readFileSync("aktivnosti.txt");
+    let link = req.url;
+    let parametri = link.split('/');
+    let naziv = parametri[2];
+    let text = buf.toString();
+    let textovi = text.split('\n');
+    let filter = textovi.filter(function (value,index,arr){
+        let red = value.split(",");
+        return red[0]!=naziv;
+    });
+    if(textovi.length!=filter.length){
+        let noviFajl ="";
+        for(let i = 0; i<filter.length; i++){
+            if(i!=0) noviFajl+="\n";
+            noviFajl+=filter[i];
         }
-        let link = req.url;
-        let parametri = link.split('/');
-        let naziv = parametri[2];
-        let text = buf.toString();
-        let textovi = text.split('\n');
-        let filter = textovi.filter(function (value,index,arr){
-            let red = value.split(",");
-            return red[0]!=naziv;
-        });
-        if(textovi.length!=filter.length){
-            let noviFajl ="";
-            for(let i = 0; i<filter.length; i++){
-                if(i!=0) noviFajl+="\n";
-                noviFajl+=filter[i];
-            }
-            fs.writeFile("aktivnosti.txt",noviFajl,function (err){
-                if(err) {
-                    console.log(err);
-                    return ;
-                }
-                res.json({message: "Aktivnost izbrisana"});
-            })
-        }else{
-            res.json({message: "Greška - Aktivnost nije izbrisana!"});
-        }
-    })
+        fs.writeFileSync("aktivnosti.txt",noviFajl);
+
+        res.json({message: "Aktivnost izbrisana"});
+
+    }else{
+        res.json({message: "Greška - Aktivnost nije izbrisana!"});
+    }
+
 })
 
 app.delete("/all",function (req,res){
-    fs.writeFile("predmeti.txt","",function (err){
-        if(err){
-            console.log(err);
-            res.json({message: "Greška - Sadržaj datoteka nije moguće obrisati"});
-        }
-    });
-    fs.writeFile("aktivnosti.txt","",function (err){
-        if(err){
-            console.log(err);
-            res.json({message: "Greška - Sadržaj datoteka nije moguće obrisati"});
-        }
-    });
-    res.json({message: "Uspješno obrisan sadržaj datoteka!"});
+    try{
+        fs.writeFileSync("predmeti.txt","");
+
+        fs.writeFileSync("aktivnosti.txt","");
+        res.json({message: "Uspješno obrisan sadržaj datoteka!"});
+    }catch (err){
+        res.json({message: "Greška - Sadržaj datoteka nije moguće obrisati"});
+    }
+
 })
 
 
