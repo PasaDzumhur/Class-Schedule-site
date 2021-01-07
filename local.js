@@ -148,10 +148,10 @@ app.delete('/predmet/:naziv',function (req,res){
         }
         fs.writeFileSync("predmeti.txt",noviFajl);
 
-        res.json({message: "Predmet izbrisan"});
+        res.json({message: "Uspješno obrisan predmet!"});
 
     }else{
-        res.json({message: "Greška - predmet nije izbrisan!"});
+        res.json({message: "Greška - predmet nije obrisan!"});
     }
 })
 
@@ -174,10 +174,10 @@ app.delete('/aktivnost/:naziv',function (req,res){
         }
         fs.writeFileSync("aktivnosti.txt",noviFajl);
 
-        res.json({message: "Aktivnost izbrisana"});
+        res.json({message: "Uspješno obrisana aktivnost!"});
 
     }else{
-        res.json({message: "Greška - Aktivnost nije izbrisana!"});
+        res.json({message: "Greška - aktivnost nije obrisana!"});
     }
 
 })

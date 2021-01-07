@@ -12,3 +12,7 @@ POST,/predmet,{"naziv" : "RMA"},{"message":"Uspješno dodan predmet!"}
 POST,/aktivnost,{"naziv":"RMA","tip":"predavanje","pocetak":"9","kraj":"12","dan":"Srijeda"},{\"message\":\"Uspješno dodana aktivnost!\"}
 POST,/aktivnost,{"naziv":"DM","tip":"predavanje","pocetak":"9","kraj":"12","dan":"Četvrtak"},{\"message\":\"Uspješno dodana aktivnost!\"}
 POST,/aktivnost,{"naziv":"WT","tip":"predavanje","pocetak":"9","kraj":"12","dan":"Četvrtak"},{\"message\":\"Aktivnost nije validna!\"}
+DELETE,/predmet/DM,null,{"message":"Uspješno obrisan predmet!"}
+DELETE,/predmet/UUP,null,{"message":"Greška - predmet nije obrisan!"}
+DELETE,/aktivnost/DM,null,{"message":"Uspješno obrisana aktivnost!"}
+DELETE,/aktivnost/UUP,null,{"message":"Greška - aktivnost nije obrisana!"}

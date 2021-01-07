@@ -1,2 +1,1 @@
 RMA,predavanje,9,12,Srijeda
-DM,predavanje,9,12,Četvrtak
