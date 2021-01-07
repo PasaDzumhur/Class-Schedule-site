@@ -23,14 +23,25 @@ describe('testovi iz txt-a',() =>{
             let aktivnosti = bufAktivnosti.toString();
             fs.writeFileSync("aktivnosti.txt",aktivnosti+'\n');
         })*/
+        /*
+        before(()=>{
+            fs.writeFileSync("predmeti.txt","");
+            fs.writeFileSync("aktivnosti.txt","");
+        })
+
+        after(()=>{
+            fs.writeFileSync("predmeti.txt","");
+            fs.writeFileSync("aktivnosti.txt","");
+        })*/
 
 
 
 
         for(let i = 0; i<testovi.length; i++){
             //console.log(testovi[i]);
-            it("test broj: "+i,(done) =>{
+            it("test broj: "+(i+1),(done) =>{
                 //assert.equal(true,true);
+                console.log(testovi[i]);
                 let parametri = testovi[i].split(',');
                 let operacija = parametri[0];
                 let ruta = parametri[1];

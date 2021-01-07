@@ -98,7 +98,8 @@ app.post('/aktivnost',function (req,res){
         let tip = tijelo["tip"];
         let pocetak = parseFloat(tijelo["pocetak"]);
         let kraj = parseFloat(tijelo["kraj"]);
-        if((!Number.isInteger(pocetak) && Math.abs(Math.round(pocetak)-pocetak)!=0.5) || (!Number.isInteger(kraj) && Math.abs(Math.round(kraj)-kraj)!=0.5)) res.json({message: "Aktivnost nije validna"});
+        if((!Number.isInteger(pocetak) && Math.abs(Math.round(pocetak)-pocetak)!=0.5) || (!Number.isInteger(kraj) && Math.abs(Math.round(kraj)-kraj)!=0.5)) res.json({message: "Aktivnost nije validna!"});
+        if(pocetak<8 || pocetak>21 || kraj<8 || kraj>21) res.json({message: "Aktivnost nije validna!"});
         //if(!Number.isInteger(kraj) && Math.abs(Math.round(kraj)-kraj)!=0.5) res.json({message: "Aktivnost nije validna"});
         let dan = tijelo["dan"];
         let text =buf.toString();
@@ -111,7 +112,7 @@ app.post('/aktivnost',function (req,res){
                 let granicaKraj = parseFloat(info[3]);
                 if((pocetak>=granicaPocetak && pocetak<granicaKraj) || (kraj>granicaPocetak && kraj<=granicaKraj)){
 
-                    res.json({message: "Aktivnost nije validna"});
+                    res.json({message: "Aktivnost nije validna!"});
                     return ;
                 }
             }

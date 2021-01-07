@@ -6,3 +6,9 @@ POST,/predmet,{\"naziv\":\"WT\"},{\"message\":\"Uspješno dodan predmet!\"}
 GET,/predmet,null,[{\"naziv\":\"RMA\"},{\"naziv\":\"WT\"}]
 POST,/aktivnost,{"naziv":"DM","tip":"predavanje","pocetak":"9","kraj":"12","dan":"Srijeda"},{\"message\":\"Uspješno dodana aktivnost!\"}
 DELETE,/all,null,{\"message\":\"Uspješno obrisan sadržaj datoteka!\"}
+POST,/predmet,{"naziv" : "DM"},{"message":"Uspješno dodan predmet!"}
+POST,/predmet,{"naziv" : "WT"},{"message":"Uspješno dodan predmet!"}
+POST,/predmet,{"naziv" : "RMA"},{"message":"Uspješno dodan predmet!"}
+POST,/aktivnost,{"naziv":"RMA","tip":"predavanje","pocetak":"9","kraj":"12","dan":"Srijeda"},{\"message\":\"Uspješno dodana aktivnost!\"}
+POST,/aktivnost,{"naziv":"DM","tip":"predavanje","pocetak":"9","kraj":"12","dan":"Četvrtak"},{\"message\":\"Uspješno dodana aktivnost!\"}
+POST,/aktivnost,{"naziv":"WT","tip":"predavanje","pocetak":"9","kraj":"12","dan":"Četvrtak"},{\"message\":\"Aktivnost nije validna!\"}
