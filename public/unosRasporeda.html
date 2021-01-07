@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Planiranje nastavnik</title>
+    <link rel="stylesheet" type="text/css" href="css/planiranjeStyle.css">
+</head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<body>
+
+<div id="unosPodataka">
+    <form class="form" action="" method="#">
+        <label for="naziv">Naziv:</label>
+        <input type="text" id="naziv" name="" value="">
+        <br>
+        <label for="tip">Tip:</label>
+        <select class="" id="tip" name="tip">
+            <option value="Predavanje">Predavanje</option>
+            <option value="Vježba">Vježba</option>
+
+        </select>
+        <br>
+        <label for="pocetak">Vrijeme pocetka:</label>
+        <input type="number" id="pocetak" name="pocetak" min="8" max="20">
+        <br>
+        <label for="kraj">Vrijeme kraja:</label>
+        <input type="number" id="kraj" name="kraj" min="8" max="20">
+        <br>
+        <label for="dan">Dan u sedmici:</label>
+        <select class="" id="dan" name="dan">
+            <option value="Ponedjeljak">Ponedjeljak</option>
+            <option value="Utorak">Utorak</option>
+            <option value="Srijeda">Srijeda</option>
+            <option value="Cetvrtak">Cetvrtak</option>
+            <option value="Petak">Petak</option>
+            <option value="Subota">Subota</option>
+            <option value="Nedjelja">Nedjelja</option>
+        </select>
+        <button type="submit" value="Unesi" id="unesi"></button>
+    </form>
+</div>
+<script src="unosRasporeda.js"></script>
+</body>
+
+</html>

@@ -77,6 +77,7 @@ app.get('/aktivnosti',function (req,res){
         let json=[];
         //let head = redovi[0].split(',');
         for(let i = 0; i<redovi.length; i++){
+            if(redovi[i]=="") continue;
             let red = redovi[i].split(",");
 
             json.push({naziv : red[0], tip : red[1], pocetak : red[2], kraj : red[3], dan : red[4]});
@@ -144,7 +145,8 @@ app.get('/predmet/:naziv/aktivnosti',function (req,res){
         let redovi = text.split('\n');
         let json=[];
 
-        for(let i = 1; i<redovi.length; i++){
+        for(let i = 0; i<redovi.length; i++){
+            if(red[i]=="") continue;
             let red = redovi[i].split(",");
             if(red[0]==naziv){
                 json.push({naziv : red[0], tip : red[1], pocetak : red[2], kraj : red[3], dan : red[4]});

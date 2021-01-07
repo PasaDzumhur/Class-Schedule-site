@@ -4,4 +4,3 @@ RMA,predavanje,14,17,Ponedjeljak
 RMA,vježbe,12.5,14,Utorak
 DM,tutorijal,14,16,Utorak
 DM,predavanje,16,19,Utorak
-DM,predavanje,9,12,Srijeda

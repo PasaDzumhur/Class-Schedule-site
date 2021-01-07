@@ -27,6 +27,10 @@ select {
     width: 40%;
     box-sizing: border-box;
 }
+button{
+    float: bottom;
+
+}
 
 @media only screen and (max-width: 600px){
     select,input,label{
