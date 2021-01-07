@@ -6,7 +6,6 @@ const bodyParser = require('body-parser');
 const fs = require('fs');
 
 const app = express();
-console.log("testPrije");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
@@ -35,9 +34,7 @@ app.get('/predmet',function (req,res){
 });
 
 app.post('/predmet',function (req,res){
-    console.log("test");
     let tijelo = req.body;
-    console.log(tijelo);
     let naziv= tijelo["naziv"];
     fs.readFile("predmeti.txt",function read(err,buf){
         if(err) {
@@ -47,7 +44,7 @@ app.post('/predmet',function (req,res){
         let text =buf.toString();
         let textovi = text.split('\n');
         for( let i = 0; i<textovi.length; i++){
-            console.log(textovi[i]);
+
             if(textovi[i]==naziv){
                 res.json({message: "Naziv predmeta postoji"});
                 return;
@@ -59,7 +56,7 @@ app.post('/predmet',function (req,res){
                 console.log(err);
                 return;
             }
-            console.log("Predmet uspjesno dodat");
+
             res.json({message: "Uspješno dodan predmet!"});
         })
     })
@@ -112,7 +109,7 @@ app.post('/aktivnost',function (req,res){
                 let granicaPocetak = parseFloat(info[2]);
                 let granicaKraj = parseFloat(info[3]);
                 if((pocetak>=granicaPocetak && pocetak<granicaKraj) || (kraj>granicaPocetak && kraj<=granicaKraj)){
-                    console.log("proslo");
+
                     res.json({message: "Aktivnost nije validna"});
                     return ;
                 }
