@@ -116,7 +116,7 @@ app.get('/predmet/:naziv/aktivnosti',function (req,res){
     let json=[];
 
     for(let i = 0; i<redovi.length; i++){
-        if(red[i]=="") continue;
+        if(redovi[i]=="") continue;
         let red = redovi[i].split(",");
         if(red[0]==naziv){
             json.push({naziv : red[0], tip : red[1], pocetak : red[2], kraj : red[3], dan : red[4]});

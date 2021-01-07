@@ -1,1 +1,2 @@
 RMA,predavanje,9,12,Srijeda
+RMA,vježbe,17,19,Srijeda

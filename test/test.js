@@ -47,7 +47,7 @@ describe('testovi iz txt-a',() =>{
                 let ruta = parametri[1];
                 let ulaz = parametri[2];
                 let pocetakIzlaza = 3;
-                if(ulaz!=null && parametri.length>6){
+                if(ulaz!="null" && parametri.length>6){
                     for(let j = 3; j<7; j++) ulaz += "," + parametri[j];
                     pocetakIzlaza=7;
                 }
@@ -63,6 +63,12 @@ describe('testovi iz txt-a',() =>{
                 izlaz = izlaz.replace(/\\/g,"");
                 ulaz = ulaz.replace(/\\/g,"");
                 if(operacija=="GET"){
+                    if(i==18){
+                        console.log("operacija: " +operacija);
+                        console.log("ruta: " +ruta);
+                        console.log("ulaz: " +ulaz);
+                        console.log("izlaz: " +izlaz);
+                    }
                     chai.request(server)
                         .get(ruta).end(((err,res)=>{
 
