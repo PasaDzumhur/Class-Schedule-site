@@ -80,6 +80,7 @@ app.post('/aktivnost',function (req,res){
     if(pocetak<8 || pocetak>21 || kraj<8 || kraj>21) res.json({message: "Aktivnost nije validna!"});
     //if(!Number.isInteger(kraj) && Math.abs(Math.round(kraj)-kraj)!=0.5) res.json({message: "Aktivnost nije validna"});
     let dan = tijelo["dan"];
+    if(dan!="Ponedjeljak" && dan!="Utorak" && dan!="Srijeda" && dan!="Četvrtak" && dan!="Petak") res.json({message: "Aktivnost nije validna!"});
     let text =buf.toString();
     let textovi = text.split('\n');
     for(let i = 0 ; i<textovi.length; i++){
