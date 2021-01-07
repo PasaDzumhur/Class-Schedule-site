@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(__dirname+"/public"));
 
-app.get('/predmeti',function (req,res){
+app.get('/predmet',function (req,res){
     fs.readFile("predmeti.txt",function read (err,buf){
         if(err) {
             console.log(err);
@@ -60,7 +60,7 @@ app.post('/predmet',function (req,res){
                 return;
             }
             console.log("Predmet uspjesno dodat");
-            res.json({message: "Uspjesno dodan predmet"});
+            res.json({message: "Uspješno dodan predmet!"});
         })
     })
 
@@ -89,7 +89,7 @@ app.get('/aktivnosti',function (req,res){
     })
 })
 
-app.post('/aktivnosti',function (req,res){
+app.post('/aktivnost',function (req,res){
     let tijelo = req.body;
     fs.readFile("aktivnosti.txt",function read(err,buf){
         if(err) {
@@ -125,8 +125,8 @@ app.post('/aktivnosti',function (req,res){
                 console.log(err);
                 return;
             }
-            console.log("Aktivnost uspjesno dodata");
-            res.json({message: "Uspjesno dodana aktivnost"});
+
+            res.json({message: "Uspješno dodana aktivnost!"});
         })
     })
 })
@@ -241,10 +241,12 @@ app.delete("/all",function (req,res){
             res.json({message: "Greška - Sadržaj datoteka nije moguće obrisati"});
         }
     });
-    res.json({message: "Uspješno obrisan sadržaj datoteka"});
+    res.json({message: "Uspješno obrisan sadržaj datoteka!"});
 })
 
 
 
 const port = process.env.PORT || 3000;
 module.exports = app.listen(port, () => console.log(`Listening on port ${port}...`));
+
+
