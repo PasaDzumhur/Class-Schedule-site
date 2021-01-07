@@ -98,8 +98,8 @@ app.post('/aktivnost',function (req,res){
         let tip = tijelo["tip"];
         let pocetak = parseFloat(tijelo["pocetak"]);
         let kraj = parseFloat(tijelo["kraj"]);
-        if(!Number.isInteger(pocetak) && Math.abs(Math.round(pocetak)-pocetak)!=0.5) res.json({message: "Aktivnost nije validna"});
-        if(!Number.isInteger(kraj) && Math.abs(Math.round(kraj)-kraj)!=0.5) res.json({message: "Aktivnost nije validna"});
+        if((!Number.isInteger(pocetak) && Math.abs(Math.round(pocetak)-pocetak)!=0.5) || (!Number.isInteger(kraj) && Math.abs(Math.round(kraj)-kraj)!=0.5)) res.json({message: "Aktivnost nije validna"});
+        //if(!Number.isInteger(kraj) && Math.abs(Math.round(kraj)-kraj)!=0.5) res.json({message: "Aktivnost nije validna"});
         let dan = tijelo["dan"];
         let text =buf.toString();
         let textovi = text.split('\n');

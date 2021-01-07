@@ -1,6 +1,14 @@
-WT,predavanje,9,12,Ponedjeljak
-WT,vježbe,12,13.5,Ponedjeljak
-RMA,predavanje,14,17,Ponedjeljak
-RMA,vježbe,12.5,14,Utorak
-DM,tutorijal,14,16,Utorak
-DM,predavanje,16,19,Utorak
+DM,predavanje,9,12,Srijeda
+,
+            <option value="Predavanje">Predavanje</option>
+            <option value="Vježba">Vježba</option>
+
+        ,NaN,NaN,
+            <option value="Ponedjeljak">Ponedjeljak</option>
+            <option value="Utorak">Utorak</option>
+            <option value="Srijeda">Srijeda</option>
+            <option value="Cetvrtak">Cetvrtak</option>
+            <option value="Petak">Petak</option>
+            <option value="Subota">Subota</option>
+            <option value="Nedjelja">Nedjelja</option>
+        

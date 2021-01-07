@@ -33,8 +33,48 @@ function dajAktivnosti(){
 }
 
 function unesi(){
-    alert(predmeti);
-    alert(aktivnosti)
+    let naziv = document.getElementById("naziv").value;
+    let tip = document.getElementById("tip").value;
+    let pocetak = document.getElementById("pocetak").value;
+    let kraj = document.getElementById("kraj").value;
+    let dan = document.getElementById("dan").value;
+    let json ={naziv : naziv, tip : tip, pocetak : pocetak, kraj : kraj, dan :dan};
+    let postoji = false;
+    for(let i = 0; i<predmeti.length; i++){
+        if(predmeti[i]["naziv"]==naziv) postoji = true;
+    }
+    if(!postoji){
+        var dodajPredmet = new XMLHttpRequest();
+        dodajPredmet.onreadystatechange = function (){
+            if(dodajPredmet.readyState==4 && dodajPredmet.status==200){
+                console.log("dodan predmet");
+            }
+
+        };
+        dodajPredmet.open("POST",'/predmet',true);
+        dodajPredmet.setRequestHeader("Content-Type","application/json");
+        dodajPredmet.send(JSON.stringify({naziv : naziv}));
+    }
+    var dodajAktivnost = new XMLHttpRequest();
+    dodajAktivnost.onreadystatechange = function () {
+        if(dodajAktivnost.readyState==4 && dodajAktivnost.status == 200){
+            alert(JSON.parse(this.responseText).message);
+            if(JSON.parse(this.responseText).message=="Aktivnost nije validna!" && !postoji){
+                var izbrisiPredmet = new XMLHttpRequest();
+                izbrisiPredmet.onreadystatechange = function (){
+                    if(izbrisiPredmet.readyState==4 && izbrisiPredmet.status == 200){
+                        console.log("izbrisan predmet");
+                    }
+                }
+                izbrisiPredmet.open("DELETE", "/predmet/" + naziv,true);
+                izbrisiPredmet.send();
+            }
+        }
+    }
+
+    dodajAktivnost.open("POST",'/aktivnost',true);
+    dodajAktivnost.setRequestHeader("Content-Type","application/json");
+    dodajAktivnost.send(JSON.stringify(json));
 
 
 }

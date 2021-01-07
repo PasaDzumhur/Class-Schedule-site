@@ -14,7 +14,7 @@ describe('testovi iz txt-a',() =>{
     let text = buf.toString();
     let testovi = text.split('\n');
     describe('testovi',()=>{
-
+        /*
         after(()=>{
             let bufPredmeti = fs.readFileSync("predmetiRezerva.txt");
             let predmeti = bufPredmeti.toString();
@@ -22,7 +22,7 @@ describe('testovi iz txt-a',() =>{
             let bufAktivnosti = fs.readFileSync("aktivnostiRezerva.txt");
             let aktivnosti = bufAktivnosti.toString();
             fs.writeFileSync("aktivnosti.txt",aktivnosti+'\n');
-        })
+        })*/
 
 
 

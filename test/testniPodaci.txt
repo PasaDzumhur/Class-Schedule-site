@@ -5,3 +5,4 @@ POST,/predmet,{\"naziv\":\"RMA\"},{\"message\":\"Uspješno dodan predmet!\"}
 POST,/predmet,{\"naziv\":\"WT\"},{\"message\":\"Uspješno dodan predmet!\"}
 GET,/predmet,null,[{\"naziv\":\"RMA\"},{\"naziv\":\"WT\"}]
 POST,/aktivnost,{"naziv":"DM","tip":"predavanje","pocetak":"9","kraj":"12","dan":"Srijeda"},{\"message\":\"Uspješno dodana aktivnost!\"}
+DELETE,/all,null,{\"message\":\"Uspješno obrisan sadržaj datoteka!\"}
