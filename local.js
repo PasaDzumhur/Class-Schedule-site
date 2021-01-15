@@ -26,18 +26,19 @@ app.get('/v2/student/:ime',function (req,res){
 app.post('/v2/student', function (req,res){
     let ime = req.body.ime;
     let indeks = req.body.indeks;
-    console.log(ime);
-    console.log(indeks);
-    /*
-    let selector = {where : {ime : imeStudent}};
-    let values = {defaults : { ime : imeStudent, indeks : indeksStudent}};
-    db.student.findOrCreate(selector,values).then((doc)=>{
-        if(doc.created) res.json({message : "Student uspješno unesen"});
-        else res.json({message : "Student već postoji"});
-    })*/
+
     db.student.findOrCreate({where : {indeks : indeks}, defaults : {ime : ime, indeks : indeks}}).then(([user,created])=>{
         if(created) res.json({message : "Student uspješno unesen"});
         else res.json({message : "Student već postoji"});
+    })
+});
+
+app.put('/v2/student/:indeks', function (req,res){
+    let ime = req.body.ime;
+    let indeks = req.body.indeks;
+    db.student.update({ime : ime, indeks: indeks}, {where : {indeks : req.params.indeks}}).then(function (rowsUpdated){
+        if(rowsUpdated>0) res.json({message : "Student uspješno izmjenjen"});
+        else res.json({message : "Student ne postoji"});
     })
 })
 
