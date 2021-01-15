@@ -40,6 +40,13 @@ app.put('/v2/student/:indeks', function (req,res){
         if(rowsUpdated>0) res.json({message : "Student uspješno izmjenjen"});
         else res.json({message : "Student ne postoji"});
     })
+});
+
+app.delete('/v2/student/:indeks',function (req,res){
+    db.student.destroy({where : {indeks : req.params.indeks}}).then(function(rowsUpdated){
+        if(rowsUpdated>0) res.json({message : "Student uspješno izbrisan"});
+        else res.json({message : "Student ne postoji"});
+    })
 })
 
 app.get('/v1/predmet',function (req,res){
