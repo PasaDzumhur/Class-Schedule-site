@@ -23,6 +23,17 @@ app.get('/v2/student/:ime',function (req,res){
 
 })
 
+app.get('/v2/student',function (req,res){
+    db.student.findAll().then(function (studenti){
+        let json = [];
+
+        for(let i = 0; i<studenti.length; i++){
+            json.push({ime : studenti[i].ime, indeks : studenti[i].indeks});
+        }
+        res.json(json);
+    })
+})
+
 app.post('/v2/student', function (req,res){
     let ime = req.body.ime;
     let indeks = req.body.indeks;
