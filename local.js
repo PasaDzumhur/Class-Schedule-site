@@ -4,14 +4,42 @@ const http = require('http');
 const url = require('url');
 const bodyParser = require('body-parser');
 const fs = require('fs');
+const {Sequelize , Op} = require('sequelize');
 const db = require('./utils/baza');
-db.sequelize.sync({force : true});
+db.sequelize.sync();
 
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(__dirname+"/public"));
+
+app.get('/v2/student/:ime',function (req,res){
+    console.log(req.params.ime);
+    db.student.findOne({where:{ime : req.params.ime}}).then(function (student){
+        if(student) res.json({ime : student.ime, indeks : student.indeks});
+        else res.json({message : "Trazeni student ne postoji"});
+    })
+
+})
+
+app.post('/v2/student', function (req,res){
+    let ime = req.body.ime;
+    let indeks = req.body.indeks;
+    console.log(ime);
+    console.log(indeks);
+    /*
+    let selector = {where : {ime : imeStudent}};
+    let values = {defaults : { ime : imeStudent, indeks : indeksStudent}};
+    db.student.findOrCreate(selector,values).then((doc)=>{
+        if(doc.created) res.json({message : "Student uspješno unesen"});
+        else res.json({message : "Student već postoji"});
+    })*/
+    db.student.findOrCreate({where : {indeks : indeks}, defaults : {ime : ime, indeks : indeks}}).then(([user,created])=>{
+        if(created) res.json({message : "Student uspješno unesen"});
+        else res.json({message : "Student već postoji"});
+    })
+})
 
 app.get('/v1/predmet',function (req,res){
     let buf = fs.readFileSync("predmeti.txt");
