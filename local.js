@@ -5,7 +5,7 @@ const url = require('url');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const db = require('./utils/baza');
-db.sequelize.sync();
+db.sequelize.sync({force : true});
 
 const app = express();
 app.use(bodyParser.json());
@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(__dirname+"/public"));
 
-app.get('/predmet',function (req,res){
+app.get('/v1/predmet',function (req,res){
     let buf = fs.readFileSync("predmeti.txt");
 
     let text = buf.toString();
@@ -31,7 +31,7 @@ app.get('/predmet',function (req,res){
 
 });
 
-app.post('/predmet',function (req,res){
+app.post('/v1/predmet',function (req,res){
     let tijelo = req.body;
     let naziv= tijelo["naziv"];
     let buf = fs.readFileSync("predmeti.txt");
@@ -52,7 +52,7 @@ app.post('/predmet',function (req,res){
 
 })
 
-app.get('/aktivnosti',function (req,res){
+app.get('/v1/aktivnosti',function (req,res){
     let buf = fs.readFileSync("aktivnosti.txt");
 
     let text = buf.toString();
@@ -70,7 +70,7 @@ app.get('/aktivnosti',function (req,res){
 
 })
 
-app.post('/aktivnost',function (req,res){
+app.post('/v1/aktivnost',function (req,res){
     let tijelo = req.body;
     let buf = fs.readFileSync("aktivnosti.txt");
 
@@ -107,7 +107,7 @@ app.post('/aktivnost',function (req,res){
 
 })
 
-app.get('/predmet/:naziv/aktivnosti',function (req,res){
+app.get('/v1/predmet/:naziv/aktivnosti',function (req,res){
     let buf = fs.readFileSync("aktivnosti.txt");
     let link = req.url;
     let parametri = link.split('/');
@@ -130,7 +130,7 @@ app.get('/predmet/:naziv/aktivnosti',function (req,res){
     res.json(json);
 })
 
-app.delete('/predmet/:naziv',function (req,res){
+app.delete('/v1/predmet/:naziv',function (req,res){
     let buf = fs.readFileSync("predmeti.txt");
 
     let link = req.url;
@@ -158,7 +158,7 @@ app.delete('/predmet/:naziv',function (req,res){
     }
 })
 
-app.delete('/aktivnost/:naziv',function (req,res){
+app.delete('/v1/aktivnost/:naziv',function (req,res){
     let buf = fs.readFileSync("aktivnosti.txt");
     let link = req.url;
     let parametri = link.split('/');
@@ -185,7 +185,7 @@ app.delete('/aktivnost/:naziv',function (req,res){
 
 })
 
-app.delete("/all",function (req,res){
+app.delete("/v1/all",function (req,res){
     try{
         fs.writeFileSync("predmeti.txt","");
 

@@ -20,23 +20,23 @@ db.tip = require(path.join(__dirname+'/tip.js'))(sequelize, Sequelize.DataTypes)
 
 //Relacije
 //Predmet 1-N Grupa
-db.predmet.hasMany(db.grupa,{foreignKey:{allowNull:false}});
+db.predmet.hasMany(db.grupa,{as : 'grupePredmeta',foreignKey:{allowNull:false}});
 db.grupa.belongsTo(db.predmet);
 //Aktivnost N-1 Predmet
-db.predmet.hasMany(db.aktivnost,{foreignKey:{allowNull:false}});
-db.aktivnost.belongsTo(db.predmet,{foreignKey:{allowNull:false}});
+db.predmet.hasMany(db.aktivnost,{as : 'aktivnostiPredmeta',foreignKey:{allowNull:false}});
+db.aktivnost.belongsTo(db.predmet);
 //Aktivnost N-0 Grupa
-db.grupa.hasMany(db.aktivnost);
+db.grupa.hasMany(db.aktivnost,{as : 'aktivnostiGrupe'});
 db.aktivnost.belongsTo(db.grupa);
 //Aktivnost N-1 Dan
-db.dan.hasMany(db.aktivnost,{foreignKey:{allowNull:false}});
+db.dan.hasMany(db.aktivnost,{as : 'aktivnostiDana',foreignKey:{allowNull:false}});
 db.aktivnost.belongsTo(db.dan);
 //Aktivnost N-1 Tip
-db.tip.hasMany(db.aktivnost,{foreignKey:{allowNull:false}});
+db.tip.hasMany(db.aktivnost,{as : 'aktivnostiTipa',foreignKey:{allowNull:false}});
 db.aktivnost.belongsTo(db.dan);
 //Student N-M Grupa
-db.studentGrupe = db.student.belongsToMany(db.grupa,{through:'student-grupa',foreignKey:'studentId'});
-db.grupa.belongsToMany(db.student,{through:'student_grupa',foreignKey:'grupaId'});
+db.studentGrupe = db.student.belongsToMany(db.grupa,{as : 'studentiGrupe' ,through:'student_grupa',foreignKey:'studentId'});
+db.grupa.belongsToMany(db.student,{as : 'grupeStudenta' ,through:'student_grupa',foreignKey:'grupaId'});
 
 
 module.exports = db;
