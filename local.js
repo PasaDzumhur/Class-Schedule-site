@@ -4,6 +4,8 @@ const http = require('http');
 const url = require('url');
 const bodyParser = require('body-parser');
 const fs = require('fs');
+const db = require('./utils/baza');
+db.sequelize.sync();
 
 const app = express();
 app.use(bodyParser.json());

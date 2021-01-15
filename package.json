@@ -16,7 +16,11 @@
   "dependencies": {
     "ajax": "0.0.4",
     "express": "^4.17.1",
-    "express-session": "^1.17.1"
+    "express-session": "^1.17.1",
+    "mysql": "^2.18.1",
+    "mysql2": "^2.2.5",
+    "path": "^0.12.7",
+    "sequelize": "^6.3.5"
   },
   "devDependencies": {
     "chai": "^4.2.0",
