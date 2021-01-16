@@ -176,6 +176,31 @@ app.post('/v2/tipovi', function (req,res){
 
 })
 
+app.put('/v2/tipovi/:id', function (req,res){
+    naziv = req.body.naziv;
+    db.tip.findOne({where : {naziv : naziv}}).then(provjeraPostojanja => {
+        if(provjeraPostojanja) res.json({message : "Tip sa tim nazivom već postoji"});
+        else {
+            db.tip.update({naziv : naziv}, {where : {id : req.params.id}}).then(rowsUpdated => {
+                if(rowsUpdated>0) res.json({message : "Tip uspješno izmjenjen"});
+                else res.json({message : "Ne postoji tip sa tim id-em"});
+            })
+        }
+    })
+})
+
+app.delete('/v2/tipovi/:id', function (req,res){
+    db.tip.destroy({where : {id : req.params.id}}).then(rowsUpdated => {
+        if(rowsUpdated>0) {
+            db.aktivnost.destroy({where : {tipId : req.params.id}}).then(rowsUpdated => {
+                res.json({message : "Tip uspješno izbrisan"});
+            })
+
+        }
+        else res.json({message : "Ne postoji tip sa tim id-em"});
+    })
+})
+
 
 
 
