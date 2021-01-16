@@ -24,6 +24,23 @@ app.get('/v2/dani', function (req,res){
     })
 })
 
+app.put('/v2/dani/:id',function (req,res){
+    let naziv = req.body.naziv;
+    if(naziv=="Ponedjeljak" || naziv =="Utorak" || naziv =="Srijeda" || naziv=="Četvrtak" || naziv == "Petak" || naziv == "Subota" || naziv =="Nedjelja") {
+        db.dan.update({naziv: naziv}, {where: {id: req.params.id}}).then(rowsUpdated => {
+            if (rowsUpdated > 0) res.json({message: "Dan uspješno promijenjen"});
+            else res.json({message: "Ne postoji dan sa tim id-em"});
+        })
+    }else res.json({message : "Nevalidan naziv dana"});
+})
+
+app.delete('/v2/dani/:naziv', function (req,res){
+    db.dan.destroy({where : {naziv : req.params.naziv}}).then(rowsUpdated => {
+        if(rowsUpdated>0) res.json({message : "Dan uspješno izbrisan"});
+        else res.json({message : "Ne postoji dan sa tim nazivom"});
+    })
+})
+
 app.post('/v2/dani', function (req,res){
     naziv= req.body.naziv;
     if(naziv=="Ponedjeljak" || naziv =="Utorak" || naziv =="Srijeda" || naziv=="Četvrtak" || naziv == "Petak" || naziv == "Subota" || naziv =="Nedjelja"){
