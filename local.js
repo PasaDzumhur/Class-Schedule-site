@@ -389,28 +389,72 @@ app.get('/v2/aktivnosti',function (req,res){
                                                     tip: tipTrazeni.naziv
                                                 });
                                                 if(i==aktivnosti.length-1) resolve();
-                                                //console.log(json);
-                                                /*console.log(json2);
-                                                json.push(json2);*/
-
-                                            } //else res.json({message: "Aktivnost nije dodana zbog predmeta"});
+                                            }
                                         })
-
-
-                                    } //else res.json({message: "Aktivnost nije dodana zbog dana"});
+                                    }
                                 })
-                            } //else res.js({message: "Aktinvost nije dodana zbog tipa"});
-
+                            }
                         })
-                    } //else res.json({message: "Aktivnost nije dodana zbog grupe"});
-                    console.log("dovde dodje");
+                    }
                 })
             }
         }).then(nemamPojma=>{
             res.json(json);
         })
-        /*console.log("Stvarno nemam blage veze zasto dovde dodje");
-        res.json(json);*/
+    })
+})
+
+app.delete('/v2/aktivnosti/:naziv', function (req,res){
+    db.aktivnost.destroy({where : {naziv : req.params.naziv}}).then(rowsUpdated => {
+        if(rowsUpdated>0) res.json({message : "Aktivnost uspješno izbrisana"});
+        else res.json({message : "Ne postoji aktivnost sa tim nazivom"});
+    })
+})
+
+app.put('/v2/aktivnosti/:naziv', function (req,res){
+    naziv = req.body.naziv;
+    pocetak = req.body.pocetak;
+    kraj = req.body.kraj;
+    predmetId = req.body.predmetId;
+    grupaId = req.body.grupaId;
+    danId = req.body.danId;
+    db.aktivnost.findOne({where : {id : req.params.id}}).then(aktivnost =>{
+        if(aktivnost){
+            db.grupa.findOne({where: {id: grupaId}}).then(grupaTrazena => {
+                if (grupaTrazena) {
+                    //console.log(grupaTrazena.naziv);
+                    db.tip.findOne({where: {id: tipId}}).then(tipTrazeni => {
+                        if (tipTrazeni) {
+                            //console.log(tipTrazeni.naziv);
+                            db.dan.findOne({where: {id: danId}}).then(danTrazeni => {
+                                //console.log("dovde");
+                                if (danTrazeni) {
+                                    //console.log(danTrazeni.naziv);
+                                    db.predmet.findOne({where: {id: predmetId}}).then(predmetTrazeni => {
+                                        if (predmetTrazeni) {
+                                            //console.log(predmetTrazeni.naziv);
+                                            let json = {
+                                                naziv: naziv,
+                                                pocetak: pocetak,
+                                                kraj: kraj,
+                                                predmet: predmetTrazeni,
+                                                grupa: grupaTrazena,
+                                                dan: danTrazeni,
+                                                tip: tipTrazeni
+                                            };
+                                            db.aktivnost.update(json,{where : { id : req.params.id}}).then(rowsUpdated => {
+                                                if(rowsUpdated>0) res.json({message : "Aktivnost uspješno izmjenjena"});
+                                                else res.json({message : "Aktivnost sa trazenim id-em ne postoji"});
+                                            })
+                                        }
+                                    })
+                                }
+                            })
+                        }
+                    })
+                }
+            })
+        }
     })
 })
 
