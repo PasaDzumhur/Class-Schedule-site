@@ -27,10 +27,16 @@ app.get('/v2/dani', function (req,res){
 app.put('/v2/dani/:id',function (req,res){
     let naziv = req.body.naziv;
     if(naziv=="Ponedjeljak" || naziv =="Utorak" || naziv =="Srijeda" || naziv=="Četvrtak" || naziv == "Petak" || naziv == "Subota" || naziv =="Nedjelja") {
-        db.dan.update({naziv: naziv}, {where: {id: req.params.id}}).then(rowsUpdated => {
-            if (rowsUpdated > 0) res.json({message: "Dan uspješno promijenjen"});
-            else res.json({message: "Ne postoji dan sa tim id-em"});
+        db.dan.findOne({where : {naziv : naziv}}).then(provjeraPostojanja =>{
+            if(provjeraPostojanja) res.json({message : "Taj dan već postoji"});
+            else {
+                db.dan.update({naziv: naziv}, {where: {id: req.params.id}}).then(rowsUpdated => {
+                    if (rowsUpdated > 0) res.json({message: "Dan uspješno promijenjen"});
+                    else res.json({message: "Ne postoji dan sa tim id-em"});
+                })
+            }
         })
+
     }else res.json({message : "Nevalidan naziv dana"});
 })
 
@@ -61,6 +67,27 @@ app.get('/v2/grupe', function (req,res){
     })
 })
 
+app.delete('/v2/grupe/:naziv',function (req,res){
+    db.grupa.destroy({where : {naziv : req.params.naziv}}).then(rowsUpdated => {
+        if(rowsUpdated>0) res.json({message : "Grupa uspješno izbrisana"});
+        else res.json({message : "Ne postoji grupa sa tim nazivom"});
+    })
+})
+
+app.put('v2/grupe/:naziv',function (req,res){
+    let naziv = req.body.naziv;
+    let predmetId = req.body.predmetId;
+    db.grupa.findOne({where : {naziv : naziv}}).then(provjeraPostojanja => {
+        if(provjeraPostojanja) res.json({message : "Već postoji ista grupa na tom predmetu"});
+        else {
+            db.grupa.update({naziv : naziv, predmetId : predmetId}).then(rowsUpdated => {
+                if(rowsUpdated>0) res.json({message : "Grupa uspješno izmjenjena"});
+                else res.json({message : "Ne postoji grupa sa tim nazivom"});
+            })
+        }
+    })
+})
+
 app.post('/v2/grupe', function (req,res){
     naziv = req.body.naziv;
     predmetId = req.body.predmetId;
@@ -74,12 +101,6 @@ app.post('/v2/grupe', function (req,res){
             res.json("Ne postoji taj predmet");
         }
     })
-    /*
-    db.grupa.findOrCreate({where : {naziv : naziv}, defaults : {naziv : naziv}}).then(([model,created])=>{
-        if(created) res.json({message : "Grupa uspješno unesena"});
-        else res.json({message : "Grupa već postoji"});
-    })*/
-
 })
 
 app.get('/v2/predmeti', function (req,res){
