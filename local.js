@@ -14,8 +14,31 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(__dirname+"/public"));
 
-app.get('/v2/student/:ime',function (req,res){
-    console.log(req.params.ime);
+app.get('/v2/dani', function (req,res){
+    let json = [];
+    db.dan.findAll().then(dani=>{
+        for(let dan in dani){
+            json.push({id : dan.id, naziv : dan.naziv});
+        }
+        res.json(json);
+    })
+})
+
+app.post('/v2/dani', function (req,res){
+    naziv= req.body.naziv;
+    if(naziv=="Ponedjeljak" || naziv =="Utorak" || naziv =="Srijeda" || naziv=="Četvrtak" || naziv == "Petak" || naziv == "Subota" || naziv =="Nedjelja"){
+        db.dan.findOrCreate({where : {naziv : naziv}, defaults : {naziv : naziv}}).then(([model,created])=>{
+            if(created) res.json({message : "Dan uspješno unesen"});
+            else res.json({message : "Dan već postoji"});
+        })
+    }else res.json({message : "Nevalidno ime dana"});
+})
+
+
+
+
+app.get('/v2/studenti/:ime',function (req,res){
+
     db.student.findOne({where:{ime : req.params.ime}}).then(function (student){
         if(student) res.json({ime : student.ime, indeks : student.indeks});
         else res.json({message : "Trazeni student ne postoji"});
@@ -23,7 +46,7 @@ app.get('/v2/student/:ime',function (req,res){
 
 })
 
-app.get('/v2/student',function (req,res){
+app.get('/v2/studenti',function (req,res){
     db.student.findAll().then(function (studenti){
         let json = [];
 
@@ -34,7 +57,39 @@ app.get('/v2/student',function (req,res){
     })
 })
 
-app.post('/v2/student', function (req,res){
+app.get('/v2/aktivnosti',function (req,res){
+    let json =[];
+    db.aktivnost.findAll().then(aktivnosti =>{
+        for ( let aktivnost in aktivnosti){
+            let id = aktivnost.id;
+            let naziv = aktivnost.naziv;
+            let pocetak = aktivnost.pocetak;
+            let kraj = aktivnost.kraj;
+            let predmetId = aktivnost.predmetId;
+            let grupaId = aktivnost.grupaId;
+            let danId = aktivnost.danId;
+            let tipId = aktivnost.tipId;
+            db.predmet.findOne({where : {id: predmetId}}).then(trazeniPredmet => {
+                predmet = trazeniPredmet.naziv;
+                db.grupa.findOne({where : {id : grupaId}}).then(trazenaGrupa => {
+                    grupa = trazenaGrupa.naziv;
+                    db.dan.findOne({where : {id : danId}}).then(trazeniDan => {
+                        dan = trazeniDan.naziv;
+                        db.tip.findOne({where : {id : tipId}}).then(trazeniTip => {
+                            tip = trazeniTip.naziv;
+
+                            json.push({id : id, naziv : naziv, pocetak : pocetak, kraj : kraj,
+                            predmet : predmet, grupa : grupa, dan : dan, tip : tip});
+                        })
+                    })
+                })
+            })
+        }
+    })
+    res.json(json);
+})
+
+app.post('/v2/studenti', function (req,res){
     let ime = req.body.ime;
     let indeks = req.body.indeks;
 
@@ -44,7 +99,70 @@ app.post('/v2/student', function (req,res){
     })
 });
 
-app.put('/v2/student/:indeks', function (req,res){
+app.post('/v2/aktivnosti',function (req,res){
+    let naziv = req.body.naziv;
+    let pocetak = req.body.pocetak;
+    let kraj = req.body.kraj;
+    let predmetId = req.body.predmetId;
+    let grupaId = req.body.grupaId;
+    let danId = req.body.danId;
+    let tipId = req.body.tipId;
+    if(pocetak<8 || pocetak>21 || kraj<8 || kraj>21){
+        res.json("Aktivnost nije validna!");
+        return ;
+    }
+    if((!Number.isInteger(pocetak) && Math.abs(Math.round(pocetak)-pocetak)!=0.5) || (!Number.isInteger(kraj) && Math.abs(Math.round(kraj)-kraj)!=0.5)) {
+        res.json({message: "Aktivnost nije validna!"});
+        return ;
+    }
+    db.aktivnost.findAll({where : {danId : danId}}).then(function (aktivnosti){
+        for ( let i = 0 ; i<aktivnosti.length; i++){
+            let granicaPocetak= aktivnosti[i].pocetak;
+            let granicaKraj = aktivnosti[i].kraj;
+            if((pocetak>=granicaPocetak && pocetak<granicaKraj) || (kraj>granicaPocetak && kraj<=granicaKraj)){
+                res.json({message: "Aktivnost nije validna!"});
+                return ;
+            }
+        }
+        db.grupa.findOne({where : {id : grupaId}}).then(grupaTrazena =>{
+            if(grupaTrazena) {
+                db.tip.findOne({where: {id: tipId}}).then(tipTrazeni => {
+                    if(tipTrazeni){
+                        db.dan.findOne({where : {id : dan}}).then(danTrazeni =>{
+                            if(danTrazeni){
+                                db.predmet.findOne({where : {id : danId}}).then(predmetTrazeni =>{
+                                    if(predmetTrazeni){
+                                        let json = {naziv : naziv, pocetak : pocetak, kraj : kraj, predmetId : predmetId, grupaId : grupaId, danId : danId, tipId : tipId };
+                                        db.aktivnost.create(json).then(response =>{
+                                            res.json({message : "Aktivnost uspješno dodana"});
+                                        }).catch(err=>{
+                                            console.log(err);
+                                            res.json({message :"Aktivnost nije dodana zbog errora"});
+                                        })
+                                        return ;
+                                    }else res.json({message : "Aktivnost nije dodana zbog predmeta"});
+                                })
+
+
+                            } else res.json({message : "Aktivnost nije dodana zbog dana"});
+                        })
+                    } else res.js({message : "Aktinvost nije dodana zbog tipa"});
+
+                })
+            }else res.json({message : "Aktivnost nije dodana zbog grupe"});
+        })
+        /*
+        let json = {naziv : naziv, pocetak : pocetak, kraj : kraj, predmetId : predmetId, grupaId : grupaId, danId : danId, tipId : tipId };
+        db.aktivnost.create(json).then(response =>{
+            res.json({message : "Aktivnost uspješno dodana"});
+        }).catch(err=>{
+            console.log(err);
+            res.json({message :"Aktivnost nije dodana zbog errora"});
+        })*/
+    })
+})
+
+app.put('/v2/studenti/:indeks', function (req,res){
     let ime = req.body.ime;
     let indeks = req.body.indeks;
     db.student.update({ime : ime, indeks: indeks}, {where : {indeks : req.params.indeks}}).then(function (rowsUpdated){
@@ -53,11 +171,17 @@ app.put('/v2/student/:indeks', function (req,res){
     })
 });
 
-app.delete('/v2/student/:indeks',function (req,res){
+app.delete('/v2/studenti/:indeks',function (req,res){
     db.student.destroy({where : {indeks : req.params.indeks}}).then(function(rowsUpdated){
         if(rowsUpdated>0) res.json({message : "Student uspješno izbrisan"});
         else res.json({message : "Student ne postoji"});
     })
+})
+
+
+
+app.get('/v2/aktivnosti',function (req,res){
+
 })
 
 app.get('/v1/predmet',function (req,res){
