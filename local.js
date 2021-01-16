@@ -132,6 +132,31 @@ app.post('/v2/predmeti', function (req,res){
 
 })
 
+app.put('/v2/predmeti/:id', function (req,res){
+    naziv = req.body.naziv;
+    db.predmet.findOne({where : {naziv : naziv}}).then(provjeraPostojanja => {
+        if(provjeraPostojanja) res.json({message : "Predmet sa tim nazivom već postoji"});
+        else {
+            db.predmet.update({naziv : naziv}, {where : {id : req.params.id}}).then(rowsUpdated => {
+                if(rowsUpdated>0) res.json({message : "Predmet uspješno izmjenjen"});
+                else res.json({message : "Ne postoji grupa sa tim id-em"});
+            })
+        }
+    })
+})
+
+app.delete('/v2/predmeti/:id', function (req,res){
+    db.predmet.destroy({where : {id : req.params.id}}).then(rowsUpdated => {
+        if(rowsUpdated>0) {
+            db.aktivnost.destroy({where : {predmetId : req.params.id}}).then(rowsUpdated => {
+                res.json({message : "Predmet uspješno izbrisan"});
+            })
+
+        }
+        else res.json({message : "Ne postoji predmet sa tim id-em"});
+    })
+})
+
 app.get('/v2/tipovi', function (req,res){
     let json = [];
     db.tip.findAll().then(tipovi=>{
