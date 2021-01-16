@@ -201,6 +201,33 @@ app.delete('/v2/tipovi/:id', function (req,res){
     })
 })
 
+app.delete('/v2/dani/:id' ,function (req,res){
+    db.dan.destroy({where : {id : req.params.id}}).then(rowsUpdated => {
+        if(rowsUpdated>0) {
+            db.aktivnost.destroy({where : {danId : req.params.id}}).then(rowsUpdated => {
+                res.json({message : "Dan uspješno izbrisan"});
+            })
+
+        }
+        else res.json({message : "Ne postoji dan sa tim id-em"});
+    })
+})
+
+app.put('/v2/dani/:id', function (req,res){
+    naziv = req.body.naziv;
+    if(naziv=="Ponedjeljak" || naziv =="Utorak" || naziv =="Srijeda" || naziv=="Četvrtak" || naziv == "Petak" || naziv == "Subota" || naziv =="Nedjelja") {
+        db.dan.findOne({where: {naziv: naziv}}).then(provjeraPostojanja => {
+            if (provjeraPostojanja) res.json({message: "Dan sa tim nazivom već postoji"});
+            else {
+                db.dan.update({naziv: naziv}, {where: {id: req.params.id}}).then(rowsUpdated => {
+                    if (rowsUpdated > 0) res.json({message: "Dan uspješno izmjenjen"});
+                    else res.json({message: "Ne postoji dan sa tim id-em"});
+                })
+            }
+        })
+    }else res.json({message : "Nevalidno ime dana"});
+})
+
 
 
 
