@@ -40,9 +40,14 @@ app.put('/v2/dani/:id',function (req,res){
     }else res.json({message : "Nevalidan naziv dana"});
 })
 
-app.delete('/v2/dani/:naziv', function (req,res){
-    db.dan.destroy({where : {naziv : req.params.naziv}}).then(rowsUpdated => {
-        if(rowsUpdated>0) res.json({message : "Dan uspješno izbrisan"});
+app.delete('/v2/dani/:id', function (req,res){
+    db.dan.destroy({where : {id : req.params.id}}).then(rowsUpdated => {
+        if(rowsUpdated>0) {
+            db.aktivnost.destroy({where : {danId : req.params.id}}).then(rowsUpdated => {
+                res.json({message : "Dan uspješno izbrisan"});
+            })
+            //res.json({message : "Dan uspješno izbrisan"});
+        }
         else res.json({message : "Ne postoji dan sa tim nazivom"});
     })
 })
@@ -67,20 +72,25 @@ app.get('/v2/grupe', function (req,res){
     })
 })
 
-app.delete('/v2/grupe/:naziv',function (req,res){
-    db.grupa.destroy({where : {naziv : req.params.naziv}}).then(rowsUpdated => {
-        if(rowsUpdated>0) res.json({message : "Grupa uspješno izbrisana"});
+app.delete('/v2/grupe/:id',function (req,res){
+    db.grupa.destroy({where : {id : req.params.id}}).then(rowsUpdated => {
+        if(rowsUpdated>0) {
+            db.aktivnost.destroy({where : {grupaId : req.params.id}}).then(rowsUpdated => {
+                res.json({message : "Grupa uspješno izbrisana"});
+            })
+
+        }
         else res.json({message : "Ne postoji grupa sa tim nazivom"});
     })
 })
 
-app.put('v2/grupe/:naziv',function (req,res){
+app.put('v2/grupe/:id',function (req,res){
     let naziv = req.body.naziv;
     let predmetId = req.body.predmetId;
     db.grupa.findOne({where : {naziv : naziv}}).then(provjeraPostojanja => {
         if(provjeraPostojanja) res.json({message : "Već postoji ista grupa na tom predmetu"});
         else {
-            db.grupa.update({naziv : naziv, predmetId : predmetId}).then(rowsUpdated => {
+            db.grupa.update({naziv : naziv, predmetId : predmetId},{where : {id : req.params.id}}).then(rowsUpdated => {
                 if(rowsUpdated>0) res.json({message : "Grupa uspješno izmjenjena"});
                 else res.json({message : "Ne postoji grupa sa tim nazivom"});
             })
