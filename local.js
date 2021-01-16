@@ -477,77 +477,34 @@ app.delete('/v2/studenti/:indeks',function (req,res){
 })
 
 app.get('/v2/student-grupe', function (req,res){
-    /*
-    db.grupa.findAll().then(grupe => {
-        db.student.findAll().then(studenti => {
-            db.studentGrupe.findAll().then(studentiGrupe => {
-                let json = [];
-                for(let studentGrupa in studentiGrupe){
-                    let studentNaziv = "";
-                    let index = "";
-                    for(let student in studenti){
-                        if(studentGrupa.studentId==student.id){
-                            studentNaziv= student.naziv;
-                            index = student.index;
-                        }
-                    }
-                    let grupaNaziv = "";
-                    for(let grupa in grupe){
-                        if(studentGrupa.grupaId == grupa.id) grupaNaziv = grupa.naziv;
-                    }
 
-                    json.push({student : studentNaziv, indeks : indeks, grupa : grupaNaziv});
-                }
-                res.json(json);
-            })
+
+    let json= [];
+    let promiseList = [];
+    db.grupa.findAll().then(grupe => {
+        grupe.forEach(grupa => {
+            promiseList.push(grupa.getGrupeStudenta().then(studenti =>{
+                studenti.forEach(student => {
+                    let naziv = grupa.naziv;
+                    console.log(student.naziv);
+                    json.push({student : student.ime, grupa : naziv})
+                })
+            }).then(()=> {
+                return new Promise(((resolve, reject) => {
+                    resolve();
+                }))
+            }))
         })
+        Promise.all(promiseList).then(()=>{res.json(json);})
     })
 
 
-    db.student.getGrupeStudenta().then(grupice => {
-
-        let promise = new Promise((resolve, reject) => {
-            grupice.forEach(grupa => {
-                grupa.get
-            })
-        })
-
-    })*/
 })
 
-//db.studentGrupe = db.student.belongsToMany(db.grupa,{as : 'studentiGrupe' ,through:'student_grupa',foreignKey:'studentId'});
-//db.grupa.belongsToMany(db.student,{as : 'grupeStudenta' ,through:'student_grupa',foreignKey:'grupaId'});
 
 
 app.post('/v2/student-grupe',function (req,res){
-    /*
-    let studentId = req.body.studentId;
-    let grupaId = req.body.grupaId;
-    //provjera da li je ova kombinacija vec u bazi
 
-    //{where : {[Op.and] : [{studentId : studentId},{grupaId : grupaId}]}}
-    db.studentGrupe.findOne().then(provjeraPostojanja => {
-        if(provjeraPostojanja) res.json({message : "Student je već upisan u tu grupu"});
-        else {
-            db.student.findOne({where : {id : studentId}}).then(studentPostoji => {
-                if(studentPostoji){
-                    db.grupa.findOne({where : {id : grupaId}}).then(grupaPostoji => {
-                        if(grupaPostoji){
-                            db.studentGrupe.create({studentId : studentId, grupaId : grupaId}).then(response => {
-                                res.json("Student uspješno upisan u grupu");
-                            })
-                        }else{
-                            res.json({message : "Ta grupa ne postoji"});
-                        }
-                    })
-                }else {
-                    res.json({message : "Taj student ne postoji"});
-                }
-            })
-        }
-    })
-
-     */
 
     let studentId = req.body.studentId;
     let grupaId = req.body.grupaId;
