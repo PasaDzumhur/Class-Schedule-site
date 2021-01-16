@@ -216,7 +216,7 @@ app.delete('/v2/dani/:id' ,function (req,res){
 app.put('/v2/dani/:id', function (req,res){
     naziv = req.body.naziv;
     if(naziv=="Ponedjeljak" || naziv =="Utorak" || naziv =="Srijeda" || naziv=="Četvrtak" || naziv == "Petak" || naziv == "Subota" || naziv =="Nedjelja") {
-        db.dan.findOne({where: {naziv: naziv}}).then(provjeraPostojanja => {
+        db.dan.findOne({where: {naziv : naziv}}).then(provjeraPostojanja => {
             if (provjeraPostojanja) res.json({message: "Dan sa tim nazivom već postoji"});
             else {
                 db.dan.update({naziv: naziv}, {where: {id: req.params.id}}).then(rowsUpdated => {
@@ -231,9 +231,9 @@ app.put('/v2/dani/:id', function (req,res){
 
 
 
-app.get('/v2/studenti/:ime',function (req,res){
+app.get('/v2/studenti/:indeks',function (req,res){
 
-    db.student.findOne({where:{ime : req.params.ime}}).then(function (student){
+    db.student.findOne({where:{indeks : req.params.indeks}}).then(function (student){
         if(student) res.json({ime : student.ime, indeks : student.indeks});
         else res.json({message : "Trazeni student ne postoji"});
     })
@@ -474,6 +474,98 @@ app.delete('/v2/studenti/:indeks',function (req,res){
         if(rowsUpdated>0) res.json({message : "Student uspješno izbrisan"});
         else res.json({message : "Student ne postoji"});
     })
+})
+
+app.get('/v2/student-grupe', function (req,res){
+    /*
+    db.grupa.findAll().then(grupe => {
+        db.student.findAll().then(studenti => {
+            db.studentGrupe.findAll().then(studentiGrupe => {
+                let json = [];
+                for(let studentGrupa in studentiGrupe){
+                    let studentNaziv = "";
+                    let index = "";
+                    for(let student in studenti){
+                        if(studentGrupa.studentId==student.id){
+                            studentNaziv= student.naziv;
+                            index = student.index;
+                        }
+                    }
+                    let grupaNaziv = "";
+                    for(let grupa in grupe){
+                        if(studentGrupa.grupaId == grupa.id) grupaNaziv = grupa.naziv;
+                    }
+
+                    json.push({student : studentNaziv, indeks : indeks, grupa : grupaNaziv});
+                }
+                res.json(json);
+            })
+        })
+    })
+
+
+    db.student.getGrupeStudenta().then(grupice => {
+
+        let promise = new Promise((resolve, reject) => {
+            grupice.forEach(grupa => {
+                grupa.get
+            })
+        })
+
+    })*/
+})
+
+//db.studentGrupe = db.student.belongsToMany(db.grupa,{as : 'studentiGrupe' ,through:'student_grupa',foreignKey:'studentId'});
+//db.grupa.belongsToMany(db.student,{as : 'grupeStudenta' ,through:'student_grupa',foreignKey:'grupaId'});
+
+
+app.post('/v2/student-grupe',function (req,res){
+    /*
+    let studentId = req.body.studentId;
+    let grupaId = req.body.grupaId;
+    //provjera da li je ova kombinacija vec u bazi
+
+    //{where : {[Op.and] : [{studentId : studentId},{grupaId : grupaId}]}}
+    db.studentGrupe.findOne().then(provjeraPostojanja => {
+        if(provjeraPostojanja) res.json({message : "Student je već upisan u tu grupu"});
+        else {
+            db.student.findOne({where : {id : studentId}}).then(studentPostoji => {
+                if(studentPostoji){
+                    db.grupa.findOne({where : {id : grupaId}}).then(grupaPostoji => {
+                        if(grupaPostoji){
+                            db.studentGrupe.create({studentId : studentId, grupaId : grupaId}).then(response => {
+                                res.json("Student uspješno upisan u grupu");
+                            })
+                        }else{
+                            res.json({message : "Ta grupa ne postoji"});
+                        }
+                    })
+                }else {
+                    res.json({message : "Taj student ne postoji"});
+                }
+            })
+        }
+    })
+
+     */
+
+    let studentId = req.body.studentId;
+    let grupaId = req.body.grupaId;
+    console.log(studentId);
+    console.log(grupaId);
+    db.student.findOne({where : {id : studentId}}).then(student => {
+        if(student){
+            db.grupa.findOne({where : {id : grupaId}}).then(grupa => {
+                if(grupa){
+                    grupa.setGrupeStudenta([student]).then(nesto => {
+                        res.json({message :"Student uspješno upisan u grupu"});
+                    })
+                }else res.json({message : "Ta grupa ne postoji"});
+            })
+        }else res.json({message : "Taj student ne postoji"});
+    })
+
+
 })
 
 
