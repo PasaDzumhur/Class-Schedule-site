@@ -478,38 +478,68 @@ app.get('/v2/aktivnosti',function (req,res){
                 console.log("tip " + aktivnosti[i].tipId);
                 console.log("dan " + aktivnosti[i].danId);
                 console.log("predmet " + aktivnosti[i].predmetId);
-                db.grupa.findOne({where: {id: aktivnosti[i].grupaId}}).then(grupaTrazena => {
-                    if (grupaTrazena) {
-                        console.log(grupaTrazena.naziv);
-                        db.tip.findOne({where: {id: aktivnosti[i].tipId}}).then(tipTrazeni => {
-                            if (tipTrazeni) {
-                                console.log(tipTrazeni.naziv);
-                                db.dan.findOne({where: {id: aktivnosti[i].danId}}).then(danTrazeni => {
-                                    console.log("dovde");
-                                    if (danTrazeni) {
-                                        console.log(danTrazeni.naziv);
-                                        db.predmet.findOne({where: {id: aktivnosti[i].predmetId}}).then(predmetTrazeni => {
-                                            if (predmetTrazeni) {
-                                                console.log(predmetTrazeni.naziv);
-                                                json.push({
-                                                    id: aktivnosti[i].id,
-                                                    naziv: aktivnosti[i].naziv,
-                                                    pocetak: aktivnosti[i].pocetak,
-                                                    kraj: aktivnosti[i].kraj,
-                                                    predmet: predmetTrazeni.naziv,
-                                                    grupa: grupaTrazena.naziv,
-                                                    dan: danTrazeni.naziv,
-                                                    tip: tipTrazeni.naziv
-                                                });
-                                                if(i==aktivnosti.length-1) resolve();
-                                            }
-                                        })
-                                    }
-                                })
-                            }
-                        })
-                    }
-                })
+                if(aktivnosti[i].grupaId ==null){
+                    db.tip.findOne({where: {id: aktivnosti[i].tipId}}).then(tipTrazeni => {
+                        if (tipTrazeni) {
+                            console.log(tipTrazeni.naziv);
+                            db.dan.findOne({where: {id: aktivnosti[i].danId}}).then(danTrazeni => {
+                                console.log("dovde");
+                                if (danTrazeni) {
+                                    console.log(danTrazeni.naziv);
+                                    db.predmet.findOne({where: {id: aktivnosti[i].predmetId}}).then(predmetTrazeni => {
+                                        if (predmetTrazeni) {
+                                            console.log(predmetTrazeni.naziv);
+                                            json.push({
+                                                id: aktivnosti[i].id,
+                                                naziv: aktivnosti[i].naziv,
+                                                pocetak: aktivnosti[i].pocetak,
+                                                kraj: aktivnosti[i].kraj,
+                                                predmet: predmetTrazeni.naziv,
+                                                dan: danTrazeni.naziv,
+                                                tip: tipTrazeni.naziv
+                                            });
+                                            if(i==aktivnosti.length-1) resolve();
+                                        }
+                                    })
+                                }
+                            })
+                        }
+                    })
+                }else {
+                    db.grupa.findOne({where: {id: aktivnosti[i].grupaId}}).then(grupaTrazena => {
+                        if (grupaTrazena) {
+                            console.log(grupaTrazena.naziv);
+                            db.tip.findOne({where: {id: aktivnosti[i].tipId}}).then(tipTrazeni => {
+                                if (tipTrazeni) {
+                                    console.log(tipTrazeni.naziv);
+                                    db.dan.findOne({where: {id: aktivnosti[i].danId}}).then(danTrazeni => {
+                                        console.log("dovde");
+                                        if (danTrazeni) {
+                                            console.log(danTrazeni.naziv);
+                                            db.predmet.findOne({where: {id: aktivnosti[i].predmetId}}).then(predmetTrazeni => {
+                                                if (predmetTrazeni) {
+                                                    console.log(predmetTrazeni.naziv);
+                                                    json.push({
+                                                        id: aktivnosti[i].id,
+                                                        naziv: aktivnosti[i].naziv,
+                                                        pocetak: aktivnosti[i].pocetak,
+                                                        kraj: aktivnosti[i].kraj,
+                                                        predmet: predmetTrazeni.naziv,
+                                                        grupa: grupaTrazena.naziv,
+                                                        dan: danTrazeni.naziv,
+                                                        tip: tipTrazeni.naziv
+                                                    });
+                                                    if(i==aktivnosti.length-1) resolve();
+                                                }
+                                            })
+                                        }
+                                    })
+                                }
+                            })
+                        }
+                    })
+                }
+
             }
         }).then(nemamPojma=>{
             res.json(json);
@@ -531,6 +561,7 @@ app.put('/v2/aktivnosti/:id', function (req,res){
     predmetId = req.body.predmetId;
     grupaId = req.body.grupaId;
     danId = req.body.danId;
+    tipId = req.body.tipId;
     db.aktivnost.findOne({where : {id : req.params.id}}).then(aktivnost =>{
         if(aktivnost){
             db.grupa.findOne({where: {id: grupaId}}).then(grupaTrazena => {
