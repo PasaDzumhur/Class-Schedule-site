@@ -1,4 +1,4 @@
-var select,option;
+var select,option,textArea,selectedOption;
 function setGrupe(){
     console.log("test1");
     var ajaxGrupe = new XMLHttpRequest();
@@ -21,5 +21,30 @@ function setGrupe(){
     }
     ajaxGrupe.open("GET",'/v2/grupe',true);
     ajaxGrupe.send();
+}
+
+function unesi(){
+    textArea = document.getElementById("podaci");
+    let textAreaPodaci = textArea.value;
+    let red = textAreaPodaci.split('\n');
+    let json = [];
+    select = document.getElementById("grupe");
+    selectedOption=select.options[select.selectedIndex].text;
+    red.forEach(podatak => {
+        podatak = podatak.split(',');
+        console.log({ime : podatak[0] , indeks : podatak[1]});
+        json.push({ime : podatak[0] , indeks : podatak[1]});
+    })
+    var ajaxStudenti = new XMLHttpRequest();
+    ajaxStudenti.onreadystatechange = function (){
+        if(ajaxStudenti.readyState == 4 && ajaxStudenti.status == 200){
+            console.log("odradjen");
+        }
+    }
+    //console.log(json);
+
+    ajaxStudenti.open("POST",'/v2/viseStudenata/'+selectedOption, true);
+    //ajaxStudenti.setRequestHeader("Content-type","application/json");
+    ajaxStudenti.send(json);
 }
 window.onload=setGrupe();

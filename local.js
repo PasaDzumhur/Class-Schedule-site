@@ -24,6 +24,10 @@ app.get('/v2/dani', function (req,res){
     })
 })
 
+
+
+
+
 app.put('/v2/dani/:id',function (req,res){
     let naziv = req.body.naziv;
     if(naziv=="Ponedjeljak" || naziv =="Utorak" || naziv =="Srijeda" || naziv=="Četvrtak" || naziv == "Petak" || naziv == "Subota" || naziv =="Nedjelja") {
@@ -295,6 +299,45 @@ app.post('/v2/studenti', function (req,res){
         else res.json({message : "Student već postoji"});
     })
 });
+
+app.post('/v2/viseStudenata/:grupa', function (req,res){
+    console.log("dovde");
+    console.log("req.body: " + req.body);
+    let studenti = req.body;
+    let grupaNaziv = req.params.grupa;
+    var promiseList = [];
+    db.grupa.findOne({where : {naziv : grupaNaziv}}).then(grupa => {
+        for(let i = 0; i<studenti.length; i++){
+            let student = studenti[i];
+            promiseList.push(db.student.findOrCreate({where : {indeks : student.indeks},
+                defaults : student})).then(([model,created]) => {
+                if(created) {
+
+                    grupa.setGrupeStudenta(model).then(nesto => {
+                        return new Promise((resolve, reject) => {
+                            resolve();
+                        })
+                    })
+                }
+                else {
+                    let json = [];
+                    model.foreach(stariStudent => {
+                        json.push({message : "Student " + student.ime + " " + student.indeks + " jer postoji student "
+                                +stariStudent.ime + " " + stariStudent.indeks +  "sa istim indeksom " + student.indeks});
+                    })
+                    return new Promise((resolve, reject) => {
+                        resolve(json);
+                    })
+                }
+            })
+        }
+
+        Promise.all(promiseList).then(text => {
+            console.log(text);
+        })
+    })
+
+})
 
 app.post('/v2/aktivnosti',function (req,res){
     let naziv = req.body.naziv;
