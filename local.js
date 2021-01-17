@@ -65,9 +65,10 @@ app.post('/v2/dani', function (req,res){
 app.get('/v2/grupe', function (req,res){
     let json = [];
     db.grupa.findAll().then(grupe=>{
-        for(let grupa in grupe){
+        console.log(grupe.length);
+        grupe.forEach(grupa => {
             json.push({id : grupa.id, naziv : grupa.naziv});
-        }
+        })
         res.json(json);
     })
 })
