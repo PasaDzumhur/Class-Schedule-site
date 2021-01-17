@@ -396,33 +396,70 @@ app.post('/v2/aktivnosti',function (req,res){
                 return ;
             }
         }
-        db.grupa.findOne({where : {id : grupaId}}).then(grupaTrazena =>{
-            if(grupaTrazena) {
-                db.tip.findOne({where: {id: tipId}}).then(tipTrazeni => {
-                    if(tipTrazeni){
-                        db.dan.findOne({where : {id : danId}}).then(danTrazeni =>{
-                            if(danTrazeni){
-                                db.predmet.findOne({where : {id : predmetId}}).then(predmetTrazeni =>{
-                                    if(predmetTrazeni){
-                                        let json = {naziv : naziv, pocetak : pocetak, kraj : kraj, predmetId : predmetId, grupaId : grupaId, danId : danId, tipId : tipId };
-                                        db.aktivnost.create(json).then(response =>{
-                                            res.json({message : "Aktivnost uspješno dodana"});
-                                        }).catch(err=>{
-                                            console.log(err);
-                                            res.json({message :"Aktivnost nije dodana zbog errora"});
-                                        })
-                                        return ;
-                                    }else res.json({message : "Aktivnost nije dodana zbog predmeta"});
-                                })
+
+        if(grupaId==null){
+            db.tip.findOne({where: {id: tipId}}).then(tipTrazeni => {
+                if(tipTrazeni){
+                    db.dan.findOne({where : {id : danId}}).then(danTrazeni =>{
+                        if(danTrazeni){
+                            db.predmet.findOne({where : {id : predmetId}}).then(predmetTrazeni =>{
+                                if(predmetTrazeni){
+                                    let json = {naziv : naziv, pocetak : pocetak, kraj : kraj, predmetId : predmetId, grupaId : null, danId : danId, tipId : tipId };
+                                    db.aktivnost.create(json).then(response =>{
+                                        res.json({message : "Aktivnost uspješno dodana"});
+                                    }).catch(err=>{
+                                        console.log(err);
+                                        res.json({message :"Aktivnost nije dodana zbog errora"});
+                                    })
+                                    return ;
+                                }else res.json({message : "Aktivnost nije dodana zbog predmeta"});
+                            })
 
 
-                            } else res.json({message : "Aktivnost nije dodana zbog dana"});
-                        })
-                    } else res.js({message : "Aktinvost nije dodana zbog tipa"});
+                        } else res.json({message : "Aktivnost nije dodana zbog dana"});
+                    })
+                } else res.js({message : "Aktinvost nije dodana zbog tipa"});
 
-                })
-            }else res.json({message : "Aktivnost nije dodana zbog grupe"});
-        })
+            })
+        }else {
+
+
+            db.grupa.findOne({where: {id: grupaId}}).then(grupaTrazena => {
+                if (grupaTrazena) {
+                    db.tip.findOne({where: {id: tipId}}).then(tipTrazeni => {
+                        if (tipTrazeni) {
+                            db.dan.findOne({where: {id: danId}}).then(danTrazeni => {
+                                if (danTrazeni) {
+                                    db.predmet.findOne({where: {id: predmetId}}).then(predmetTrazeni => {
+                                        if (predmetTrazeni) {
+                                            let json = {
+                                                naziv: naziv,
+                                                pocetak: pocetak,
+                                                kraj: kraj,
+                                                predmetId: predmetId,
+                                                grupaId: grupaId,
+                                                danId: danId,
+                                                tipId: tipId
+                                            };
+                                            db.aktivnost.create(json).then(response => {
+                                                res.json({message: "Aktivnost uspješno dodana"});
+                                            }).catch(err => {
+                                                console.log(err);
+                                                res.json({message: "Aktivnost nije dodana zbog errora"});
+                                            })
+                                            return;
+                                        } else res.json({message: "Aktivnost nije dodana zbog predmeta"});
+                                    })
+
+
+                                } else res.json({message: "Aktivnost nije dodana zbog dana"});
+                            })
+                        } else res.js({message: "Aktinvost nije dodana zbog tipa"});
+
+                    })
+                } else res.json({message: "Aktivnost nije dodana zbog grupe"});
+            })
+        }
 
     })
 })
@@ -480,14 +517,14 @@ app.get('/v2/aktivnosti',function (req,res){
     })
 })
 
-app.delete('/v2/aktivnosti/:naziv', function (req,res){
-    db.aktivnost.destroy({where : {naziv : req.params.naziv}}).then(rowsUpdated => {
+app.delete('/v2/aktivnosti/:id', function (req,res){
+    db.aktivnost.destroy({where : {id : req.params.id}}).then(rowsUpdated => {
         if(rowsUpdated>0) res.json({message : "Aktivnost uspješno izbrisana"});
-        else res.json({message : "Ne postoji aktivnost sa tim nazivom"});
+        else res.json({message : "Ne postoji aktivnost sa tim id-om"});
     })
 })
 
-app.put('/v2/aktivnosti/:naziv', function (req,res){
+app.put('/v2/aktivnosti/:id', function (req,res){
     naziv = req.body.naziv;
     pocetak = req.body.pocetak;
     kraj = req.body.kraj;
