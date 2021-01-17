@@ -30,6 +30,7 @@ function unesi(){
     let json = [];
     select = document.getElementById("grupe");
     selectedOption=select.options[select.selectedIndex].text;
+    //selectedOption.replace(" ", "%")
     red.forEach(podatak => {
         podatak = podatak.split(',');
         console.log({ime : podatak[0] , indeks : podatak[1]});
@@ -39,6 +40,8 @@ function unesi(){
     ajaxStudenti.onreadystatechange = function (){
         if(ajaxStudenti.readyState == 4 && ajaxStudenti.status == 200){
             console.log("odradjen");
+            let text = this.responseText;
+            document.getElementById("podaci").value=text;
         }
     }
     //console.log(json);

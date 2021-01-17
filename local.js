@@ -323,10 +323,10 @@ app.post('/v2/viseStudenata/:grupa', function (req,res){
                 }
                 else {
                     let json = [];
-                    model.foreach(stariStudent => {
-                        json.push({message : "Student " + student.ime + " " + student.indeks + " jer postoji student "
-                                +stariStudent.ime + " " + stariStudent.indeks +  "sa istim indeksom " + student.indeks});
-                    })
+                    //model.foreach(stariStudent => {
+                    json.push({message : "Student " + student.ime + " " + student.indeks + " nije upisan jer postoji student "
+                            +model.ime + " " + model.indeks +  "sa istim indeksom " + student.indeks});
+                    //})
                     return new Promise((resolve, reject) => {
                         resolve(json);
                     })
@@ -335,7 +335,9 @@ app.post('/v2/viseStudenata/:grupa', function (req,res){
         }
         for(let i = 0 ; i<promiseList.length; i++) console.log(promiseList[i]);
         Promise.all(promiseList).then(text => {
-            console.log(text);
+            //res.status=200;
+
+            res.json(text);
         })
     })
 
