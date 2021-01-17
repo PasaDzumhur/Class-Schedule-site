@@ -17,9 +17,13 @@ app.use(express.static(__dirname+"/public"));
 app.get('/v2/dani', function (req,res){
     let json = [];
     db.dan.findAll().then(dani=>{
+        /*
         for(let dan in dani){
             json.push({id : dan.id, naziv : dan.naziv});
-        }
+        }*/
+        dani.forEach(dan => {
+            json.push({id : dan.id, naziv : dan.naziv});
+        })
         res.json(json);
     })
 })
@@ -70,8 +74,9 @@ app.get('/v2/grupe', function (req,res){
     let json = [];
     db.grupa.findAll().then(grupe=>{
         console.log(grupe.length);
+
         grupe.forEach(grupa => {
-            json.push({id : grupa.id, naziv : grupa.naziv});
+            json.push({id : grupa.id, naziv : grupa.naziv,predmetId : grupa.predmetId});
         })
         res.json(json);
     })
@@ -121,9 +126,13 @@ app.post('/v2/grupe', function (req,res){
 app.get('/v2/predmeti', function (req,res){
     let json = [];
     db.predmet.findAll().then(predmeti=>{
+        /*
         for(let predmet in predmeti){
             json.push({id : predmet.id, naziv : predmet.naziv});
-        }
+        }*/
+        predmeti.forEach(predmet =>{
+            json.push({id : predmet.id, naziv : predmet.naziv});
+        })
         res.json(json);
     })
 })
@@ -165,9 +174,13 @@ app.delete('/v2/predmeti/:id', function (req,res){
 app.get('/v2/tipovi', function (req,res){
     let json = [];
     db.tip.findAll().then(tipovi=>{
+        /*
         for(let tip in tipovi){
             json.push({id : tip.id, naziv : tip.naziv});
-        }
+        }*/
+        tipovi.forEach(tip=>{
+            json.push({id : tip.id, naziv : tip.naziv});
+        })
         res.json(json);
     })
 })
@@ -322,14 +335,29 @@ app.post('/v2/viseStudenata/:grupa', function (req,res){
                     })
                 }
                 else {
-                    let json = [];
+                    if(student.ime !=model.ime){
+                        json.push({message : "Student " + student.ime + " " + student.indeks + " nije upisan jer postoji student "
+                                +model.ime + " " + model.indeks +  "sa istim indeksom " + student.indeks});
+                        //})
+                        return new Promise((resolve, reject) => {
+                            resolve(json);
+                        })
+                    }else{
+                        model.setStudentiGrupe(grupa).then(nesto => {
+                            return new Promise((resolve, reject) => {
+                                resolve([]);
+                            })
+                        })
+                    }
+
                     //model.foreach(stariStudent => {
+                    /*
                     json.push({message : "Student " + student.ime + " " + student.indeks + " nije upisan jer postoji student "
                             +model.ime + " " + model.indeks +  "sa istim indeksom " + student.indeks});
                     //})
                     return new Promise((resolve, reject) => {
                         resolve(json);
-                    })
+                    })*/
                 }
             }))
         }
