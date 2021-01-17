@@ -317,7 +317,7 @@ app.post('/v2/viseStudenata/:grupa', function (req,res){
 
                     model.setStudentiGrupe(grupa).then(nesto => {
                         return new Promise((resolve, reject) => {
-                            resolve();
+                            resolve([]);
                         })
                     })
                 }

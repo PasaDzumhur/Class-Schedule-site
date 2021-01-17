@@ -47,6 +47,7 @@ function unesi(){
             odgovor = JSON.parse(odgovor);
             console.log(odgovor);
             for(let i = 0; i<odgovor.length; i++){
+                if(odgovor[i]==null) continue;
                 for(let j = 0; j<odgovor[i].length; j++){
                     text+=odgovor[i][j].message+'\n';
                 }
