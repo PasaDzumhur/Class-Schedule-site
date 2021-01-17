@@ -315,7 +315,7 @@ app.post('/v2/viseStudenata/:grupa', function (req,res){
                 defaults : student}).then(([model,created]) => {
                 if(created) {
 
-                    grupa.setGrupeStudenta(model).then(nesto => {
+                    model.setStudentiGrupe(grupa).then(nesto => {
                         return new Promise((resolve, reject) => {
                             resolve();
                         })
