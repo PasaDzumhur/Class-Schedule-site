@@ -44,7 +44,7 @@ function unesi(){
     //console.log(json);
 
     ajaxStudenti.open("POST",'/v2/viseStudenata/'+selectedOption, true);
-    //ajaxStudenti.setRequestHeader("Content-type","application/json");
-    ajaxStudenti.send(json);
+    ajaxStudenti.setRequestHeader("Content-type","application/json");
+    ajaxStudenti.send(JSON.stringify(json));
 }
 window.onload=setGrupe();

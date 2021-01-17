@@ -301,16 +301,18 @@ app.post('/v2/studenti', function (req,res){
 });
 
 app.post('/v2/viseStudenata/:grupa', function (req,res){
-    console.log("dovde");
-    console.log("req.body: " + req.body);
-    let studenti = req.body;
+
+    var studenti = req.body;
     let grupaNaziv = req.params.grupa;
     var promiseList = [];
+    console.log("duzina: " + studenti.length);
     db.grupa.findOne({where : {naziv : grupaNaziv}}).then(grupa => {
+        console.log(grupa.naziv);
         for(let i = 0; i<studenti.length; i++){
             let student = studenti[i];
+            console.log(student.ime);
             promiseList.push(db.student.findOrCreate({where : {indeks : student.indeks},
-                defaults : student})).then(([model,created]) => {
+                defaults : student}).then(([model,created]) => {
                 if(created) {
 
                     grupa.setGrupeStudenta(model).then(nesto => {
@@ -329,9 +331,9 @@ app.post('/v2/viseStudenata/:grupa', function (req,res){
                         resolve(json);
                     })
                 }
-            })
+            }))
         }
-
+        for(let i = 0 ; i<promiseList.length; i++) console.log(promiseList[i]);
         Promise.all(promiseList).then(text => {
             console.log(text);
         })
