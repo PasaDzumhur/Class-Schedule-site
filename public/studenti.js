@@ -40,7 +40,18 @@ function unesi(){
     ajaxStudenti.onreadystatechange = function (){
         if(ajaxStudenti.readyState == 4 && ajaxStudenti.status == 200){
             console.log("odradjen");
-            let text = this.responseText;
+            let text ="";
+
+            let odgovor = this.responseText;
+            console.log(odgovor);
+            odgovor = JSON.parse(odgovor);
+            console.log(odgovor);
+            for(let i = 0; i<odgovor.length; i++){
+                for(let j = 0; j<odgovor[i].length; j++){
+                    text+=odgovor[i][j].message+'\n';
+                }
+
+            }
             document.getElementById("podaci").value=text;
         }
     }
